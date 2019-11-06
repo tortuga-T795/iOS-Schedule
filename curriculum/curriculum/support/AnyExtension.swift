@@ -17,22 +17,17 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if segment.selectedSegmentIndex == 0 {
-            return final[section].count+1
-        }
-        return secondWeek[section].count+1
+        return final[section].count+1
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         collectionView.scrollToItem(at: IndexPath(item: 0, section: currentDay), at: .centeredHorizontally, animated: false)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if segment.selectedSegmentIndex == 0 {
-            return final.count
-        }
         
-        return secondWeek.count
+        return final.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -50,52 +45,29 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return dayCell
         }
         
-        if segment.selectedSegmentIndex == 0 {
-            if final[indexPath.section][indexPath.row-1] == nil {
-                
-                return cellNill
-            }
-            
-            cell.data = final[indexPath.section][indexPath.row-1]
-            
-            return cell
-        }
-        
-        if secondWeek[indexPath.section][indexPath.row-1] == nil {
+        if final[indexPath.section][indexPath.row-1] == nil {
             return cellNill
         }
-        cell.data = secondWeek[indexPath.section][indexPath.row-1]
+        cell.data = final[indexPath.section][indexPath.row-1]
         return cell
         
     }
     
-    #warning("Timofey go into my team")
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let cellNilSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/25)
-        let cellSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/8.5)
+        let cellSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/6)
+        let cellWeekSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/10)
         
         if indexPath.row == 0 {
-            return cellSize
+            return cellWeekSize
         }
         
-        switch segment.selectedSegmentIndex {
-        case 0:
-            switch final[indexPath.section][indexPath.row-1] {
-            case nil:
-                return cellNilSize
-            default:
-                return cellSize
-            }
-        default:
-            switch secondWeek[indexPath.section][indexPath.row-1] {
-            case nil:
-                return cellNilSize
-            default:
-                return cellSize
-            }
+        if final[indexPath.section][indexPath.row-1] == nil {
+            return cellNilSize
         }
+        return cellSize
+        
         
     }
     

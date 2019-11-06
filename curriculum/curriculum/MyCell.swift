@@ -44,12 +44,15 @@ class MyCell: UICollectionViewCell {
     var teacherLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
+        
         label.textAlignment = .left
+        label.numberOfLines = 0
+        
         label.backgroundColor = .white
         label.textColor = UnitsOfSizeForCell.textColor
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 10
-        label.font = UIFont.systemFont(ofSize: UnitsOfSizeForCell.fontSize)
+        label.font = UIFont.systemFont(ofSize: 15) //Edit
         return label
     }()
     
@@ -89,17 +92,17 @@ class MyCell: UICollectionViewCell {
         pareLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: UnitsOfSizeForCell.space).isActive = true
         pareLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -contentView.frame.width/2-UnitsOfSizeForCell.space/2).isActive = true
         pareLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -contentView.frame.height/2-UnitsOfSizeForCell.space/2).isActive = true
-        
+
         teacherLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: UnitsOfSizeForCell.space).isActive = true
         teacherLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: contentView.frame.height/2+UnitsOfSizeForCell.space/2).isActive = true
         teacherLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -contentView.frame.width/2-UnitsOfSizeForCell.space/2).isActive = true
         teacherLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -UnitsOfSizeForCell.space).isActive = true
-        
+
         groupLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentView.frame.width/2+UnitsOfSizeForCell.space/2).isActive = true
         groupLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: UnitsOfSizeForCell.space).isActive = true
         groupLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -contentView.frame.width/4).isActive = true
         groupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -contentView.frame.height/2-UnitsOfSizeForCell.space/2).isActive = true
-        
+
         roomLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentView.frame.width/2+UnitsOfSizeForCell.space/2).isActive = true
         roomLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: contentView.frame.height/2+UnitsOfSizeForCell.space/2).isActive = true
         roomLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -UnitsOfSizeForCell.space).isActive = true
