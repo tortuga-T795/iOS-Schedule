@@ -21,8 +21,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        collectionView.scrollToItem(at: IndexPath(item: 0, section: currentDay), at: .centeredHorizontally, animated: false)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

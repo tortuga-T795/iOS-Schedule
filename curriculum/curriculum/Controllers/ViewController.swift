@@ -52,14 +52,13 @@ class ViewController: UIViewController {
         super.loadView()
         var arr :[String] = []
 
-        RequestKBP.getData(stringURL: "https://kbp.by/rasp/timetable/view_beta_kbp/?page=stable&cat=group&id=89",
+        RequestKBP.getData(stringURL: link,
                            format: ["p[class='today'] "], closure: {
                             arr.append($0 as! String)
                    })
 
         RequestKBP.dispGroup.notify(queue: .main)
         {
-            print("---------------------------------------WEEK DETECTOR-----------------------------------")
             numOfWeek = arr[0].contains("первая неделя") ? 1 : 2
             print(numOfWeek)
         }
@@ -69,57 +68,55 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
     
-        
         super.viewDidLoad()
+        
         RequestKBP.dispGroup.wait()
     
-        RequestKBP.dispGroup.notify(queue: .main)
-        {
-        self.view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
-        
-        self.setSegmentControl()
-        self.setIcon()
-        
-        self.collectionView.isPagingEnabled = true
-        
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-        
-        self.view.addSubview(self.collectionView)
-        self.setCollectionViewConstraints()
-        
-        self.setLoading()
-        
-        
-        //MARK: - Work with HTML
-        
-        var strAll = String()
-        
-        
-        RequestKBP.getData(stringURL: link,
-                           format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_2'] ,div[class='pair \(switcherWeek)_2 added'], div[class='pair \(switcherWeek)_2 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_3'] ,div[class='pair \(switcherWeek)_3 added'], div[class='pair \(switcherWeek)_3 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_4'] ,div[class='pair \(switcherWeek)_4 added'], div[class='pair \(switcherWeek)_4 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_5'] ,div[class='pair \(switcherWeek)_5 added'], div[class='pair \(switcherWeek)_5 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
-                                    ],
-                           closure: {
-                            
-                            print("!!!!!!!! FUCK !!!!!!!!!", numOfWeek)
-                            strAll.append($0 as! String)
-                            self.final.append(curriculumDayFinal($0 as! String))
-
-        })
-
         RequestKBP.dispGroup.notify(queue: .main) {
-            print("It's end of loading HTML data")
-            print("---------------------------------------SUPER PARSING-----------------------------------")
-            self.indicator.stopAnimating()
-            self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: true)
-            print(self.final)
-        }
+            
+            self.view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
+            
+            self.setSegmentControl()
+            self.setIcon()
+            
+            self.collectionView.isPagingEnabled = true
+            
+            self.collectionView.delegate = self
+            self.collectionView.dataSource = self
+            
+            self.view.addSubview(self.collectionView)
+            self.setCollectionViewConstraints()
+            
+            self.setLoading()
+            
+            
+            //MARK: - Work with HTML
+            
+            var strAll = String()
+        
+            RequestKBP.getData(stringURL: link,
+                               format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_2'] ,div[class='pair \(switcherWeek)_2 added'], div[class='pair \(switcherWeek)_2 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_3'] ,div[class='pair \(switcherWeek)_3 added'], div[class='pair \(switcherWeek)_3 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_4'] ,div[class='pair \(switcherWeek)_4 added'], div[class='pair \(switcherWeek)_4 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_5'] ,div[class='pair \(switcherWeek)_5 added'], div[class='pair \(switcherWeek)_5 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
+                                        ],
+                               closure: {
+                                strAll.append($0 as! String)
+                                self.final.append(curriculumDayFinal($0 as! String))
+
+            })
+
+            RequestKBP.dispGroup.notify(queue: .main) {
+                print("It's end of loading HTML data")
+                self.indicator.stopAnimating()
+                self.collectionView.reloadData()
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: true)
+                
+                
+                print(self.final)
+            }
         }
     }
     
@@ -180,9 +177,16 @@ class ViewController: UIViewController {
 
         })
         
+        
         RequestKBP.dispGroup.notify(queue: .main) {
             self.final = copyFinal
             self.collectionView.reloadData()
+            
+            if self.segment.selectedSegmentIndex == 1 {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+            } else {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: true)
+            }
         }
         
         copyFinal = []
