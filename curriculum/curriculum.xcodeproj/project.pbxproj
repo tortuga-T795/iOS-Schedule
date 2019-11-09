@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4527DF19234C7872003AAAB1 /* MyCell.swift */; };
+		4540C8832372BAAC00242E7F /* jakeTheDog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4540C8822372BAAC00242E7F /* jakeTheDog.jpg */; };
 		454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */; };
 		458A62012355198B00A1E58F /* RequestKBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458A62002355198B00A1E58F /* RequestKBP.swift */; };
 		45A4F06E236A157500CC9E5F /* MyNilCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A4F06D236A157500CC9E5F /* MyNilCollectionViewCell.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		25E7C2D74513304709F04017 /* Pods-curriculum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-curriculum.release.xcconfig"; path = "Target Support Files/Pods-curriculum/Pods-curriculum.release.xcconfig"; sourceTree = "<group>"; };
 		4527DF19234C7872003AAAB1 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
+		4540C8822372BAAC00242E7F /* jakeTheDog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jakeTheDog.jpg; sourceTree = "<group>"; };
 		454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekCell.swift; sourceTree = "<group>"; };
 		458A62002355198B00A1E58F /* RequestKBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestKBP.swift; sourceTree = "<group>"; };
 		45A4F06D236A157500CC9E5F /* MyNilCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNilCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				45EBD3192349BE0C000B3429 /* Assets.xcassets */,
+				4540C8822372BAAC00242E7F /* jakeTheDog.jpg */,
 				45EBD31B2349BE0C000B3429 /* LaunchScreen.storyboard */,
 				45EBD31E2349BE0C000B3429 /* Info.plist */,
 			);
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45EBD31D2349BE0C000B3429 /* LaunchScreen.storyboard in Resources */,
+				4540C8832372BAAC00242E7F /* jakeTheDog.jpg in Resources */,
 				45EBD31A2349BE0C000B3429 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
