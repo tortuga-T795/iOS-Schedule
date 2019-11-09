@@ -11,7 +11,7 @@ import UIKit
 struct UnitsOfSizeForCell {
     static let space: CGFloat = 5
     static let fontSize: CGFloat = 18
-    static let textColor: UIColor = .systemIndigo
+    static let textColor: UIColor = .magenta
     static let backgroundGroupColor: UIColor = .purple
 }
 
@@ -35,6 +35,7 @@ class MyCell: UICollectionViewCell {
         label.textAlignment = .left
         label.backgroundColor = .white
         label.textColor = UnitsOfSizeForCell.textColor
+        
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 10
         label.font = UIFont.boldSystemFont(ofSize: UnitsOfSizeForCell.fontSize)

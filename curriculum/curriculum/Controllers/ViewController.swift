@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     override func loadView() {
         
         super.loadView()
-        var arr :[String] = []
+        var arr: [String] = []
 
         RequestKBP.getData(stringURL: link,
                            format: ["p[class='today'] "], closure: {
@@ -59,10 +59,11 @@ class ViewController: UIViewController {
 
         RequestKBP.dispGroup.notify(queue: .main)
         {
-            numOfWeek = arr[0].contains("первая неделя") ? 1 : 2
+            print(arr[0])
+            numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 1 : 2
             print(numOfWeek)
         }
-        
+
        RequestKBP.dispGroup.wait()
     }
     
