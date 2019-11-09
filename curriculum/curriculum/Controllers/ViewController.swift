@@ -17,7 +17,7 @@ let link = "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89"
 let fontDefault: CGFloat = 17
 let fontDayOfWeek: CGFloat = 50
 var switcherWeek = "lw"
-var numOfWeek = 1
+var numOfWeek = 0
 
 
 
@@ -48,47 +48,53 @@ class ViewController: UIViewController {
     var final = [[CurriculumDay]]()
     
     override func loadView() {
+        
         super.loadView()
+        var arr :[String] = []
+
+        RequestKBP.getData(stringURL: "https://kbp.by/rasp/timetable/view_beta_kbp/?page=stable&cat=group&id=89",
+                           format: ["p[class='today'] "], closure: {
+                            arr.append($0 as! String)
+                   })
+
+        RequestKBP.dispGroup.notify(queue: .main)
+        {
+            print("---------------------------------------WEEK DETECTOR-----------------------------------")
+            numOfWeek = arr[0].contains("первая неделя") ? 1 : 2
+            print(numOfWeek)
+        }
         
-//        var arr :[String] = []
-//
-//        RequestKBP.getData(stringURL: "https://kbp.by/rasp/timetable/view_beta_kbp/?page=stable&cat=group&id=89",
-//                           format: ["p[class='today'] "], closure: {
-//                            arr.append($0 as! String)
-//                   })
-//
-//        RequestKBP.dispGroup.notify(queue: .main)
-//        {
-//            print("---------------------------------------WEEK DETECTOR-----------------------------------")
-//            numOfWeek = arr[0] == "первая неделя" ? 1 : 2
-//        }
-        
+       RequestKBP.dispGroup.wait()
     }
     
     override func viewDidLoad() {
+    
+        
         super.viewDidLoad()
+        RequestKBP.dispGroup.wait()
+    
+        RequestKBP.dispGroup.notify(queue: .main)
+        {
+        self.view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
         
+        self.setSegmentControl()
+        self.setIcon()
         
+        self.collectionView.isPagingEnabled = true
         
-        view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
         
-        setSegmentControl()
-        setIcon()
+        self.view.addSubview(self.collectionView)
+        self.setCollectionViewConstraints()
         
-        collectionView.isPagingEnabled = true
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        view.addSubview(collectionView)
-        setCollectionViewConstraints()
-        
-        setLoading()
+        self.setLoading()
         
         
         //MARK: - Work with HTML
         
         var strAll = String()
+        
         
         RequestKBP.getData(stringURL: link,
                            format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
@@ -99,6 +105,8 @@ class ViewController: UIViewController {
                                     "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
                                     ],
                            closure: {
+                            
+                            print("!!!!!!!! FUCK !!!!!!!!!", numOfWeek)
                             strAll.append($0 as! String)
                             self.final.append(curriculumDayFinal($0 as! String))
 
@@ -112,8 +120,7 @@ class ViewController: UIViewController {
             self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: true)
             print(self.final)
         }
-        
-                
+        }
     }
     
     
