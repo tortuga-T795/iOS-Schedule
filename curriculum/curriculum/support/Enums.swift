@@ -9,6 +9,7 @@
 import Foundation
 
 
+//Probably in Future)
 enum StateOfPare {
     case normal
     case none

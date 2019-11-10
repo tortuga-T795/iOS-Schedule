@@ -71,25 +71,17 @@ class ViewController: UIViewController {
     
         super.viewDidLoad()
         
+        self.view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
+        setCollectionView() //Collection with constraits and all
+        
+        self.setLoading()
+        self.setSegmentControl()
+        
+//        self.setIcon()
+        
         RequestKBP.dispGroup.wait()
     
         RequestKBP.dispGroup.notify(queue: .main) {
-            
-            self.view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
-            
-            self.setSegmentControl()
-            self.setIcon()
-            
-            self.collectionView.isPagingEnabled = true
-            
-            self.collectionView.delegate = self
-            self.collectionView.dataSource = self
-            
-            self.view.addSubview(self.collectionView)
-            self.setCollectionViewConstraints()
-            
-            self.setLoading()
-            
             
             //MARK: - Work with HTML
             
@@ -113,6 +105,7 @@ class ViewController: UIViewController {
                 print("It's end of loading HTML data")
                 self.indicator.stopAnimating()
                 self.collectionView.reloadData()
+                print(self.currentDay)
                 self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: true)
                 
                 
@@ -123,6 +116,16 @@ class ViewController: UIViewController {
     
     
     //MARK: - Setting funcs
+    
+    fileprivate func setCollectionView() {
+        
+        self.collectionView.isPagingEnabled = true
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
+        self.view.addSubview(self.collectionView)
+        self.setCollectionViewConstraints()
+    }
     
     fileprivate func setLoading() {
         indicator = UIActivityIndicatorView(frame: CGRect(x: view.frame.midX-10, y: view.frame.midY-10, width: 20, height: 20))

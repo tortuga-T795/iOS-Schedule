@@ -98,7 +98,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
 extension Calendar {
     func dayOfWeek() -> Int {
         let day = Calendar.current.component(.weekday, from: Date())-2
-        return day >= 0 ? day : 6
+        return day >= 0 ? day : 0
     }
 }
 
