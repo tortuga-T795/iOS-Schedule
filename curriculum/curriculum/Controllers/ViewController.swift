@@ -71,7 +71,7 @@ class ViewController: UIViewController {
     
         super.viewDidLoad()
         
-        self.view.backgroundColor = #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1)
+        self.view.backgroundColor = #colorLiteral(red: 0.0953803435, green: 0.08950889856, blue: 0.1199778244, alpha: 1)
         setCollectionView() //Collection with constraits and all
         
         self.setLoading()
@@ -144,9 +144,9 @@ class ViewController: UIViewController {
 
 //        collectionView.backgroundView = imageView
         
-        collectionView.backgroundColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
+        collectionView.backgroundColor = #colorLiteral(red: 0.9518175721, green: 0.9089502096, blue: 0.870041728, alpha: 1)
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
@@ -155,8 +155,10 @@ class ViewController: UIViewController {
         segment = UISegmentedControl(items: ["Сейчас", "Следующая"])
         segment.addTarget(self, action: #selector(segmentChange), for: .valueChanged)
         segment.selectedSegmentIndex = 0
-        segment.frame.size = CGSize(width: view.frame.width/2, height: view.frame.height/17)
-        segment.center = CGPoint(x: view.frame.midX, y: segment.frame.height/2+40)
+        segment.backgroundColor = #colorLiteral(red: 0.1899176538, green: 0.1831629872, blue: 0.2396201789, alpha: 1)
+        segment.tintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        segment.frame.size = CGSize(width: view.frame.width / 1.7, height: view.frame.height/13)
+        segment.center = CGPoint(x: view.frame.midX, y: segment.frame.height * 2.2)
         view.addSubview(segment)
     }
     
