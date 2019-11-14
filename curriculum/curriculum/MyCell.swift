@@ -11,8 +11,8 @@ import UIKit
 struct UnitsOfSizeForCell {
     static let space: CGFloat = 5
     static let fontSize: CGFloat = 18
-    static let textColor: UIColor = .systemIndigo
-    static let backgroundGroupColor: UIColor = .purple
+    static let textColor: UIColor = .white
+    static let backgroundGroupColor: UIColor = #colorLiteral(red: 0.1899176538, green: 0.1831629872, blue: 0.2396201789, alpha: 1)
 }
 
 class MyCell: UICollectionViewCell {
@@ -33,11 +33,12 @@ class MyCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
         label.textAlignment = .left
-        label.backgroundColor = .white
+       // label.backgroundColor = .white
         label.textColor = UnitsOfSizeForCell.textColor
+        
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 10
-        label.font = UIFont.boldSystemFont(ofSize: UnitsOfSizeForCell.fontSize)
+        label.font = UIFont.boldSystemFont(ofSize: 25 )
         return label
     }()
     
@@ -48,7 +49,7 @@ class MyCell: UICollectionViewCell {
         label.textAlignment = .left
         label.numberOfLines = 0
         
-        label.backgroundColor = .white
+        //label.backgroundColor = .white
         label.textColor = UnitsOfSizeForCell.textColor
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 10
@@ -71,8 +72,8 @@ class MyCell: UICollectionViewCell {
     var roomLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
-        label.textAlignment = .left
-        label.backgroundColor = .white
+        label.textAlignment = .center
+        label.backgroundColor = UnitsOfSizeForCell.backgroundGroupColor
         label.textColor = UnitsOfSizeForCell.textColor
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 10
@@ -87,6 +88,9 @@ class MyCell: UICollectionViewCell {
         contentView.addSubview(teacherLabel)
         contentView.addSubview(groupLabel)
         contentView.addSubview(roomLabel)
+        
+        contentView.layer.cornerRadius = 10
+        contentView.backgroundColor = #colorLiteral(red: 0.3571556211, green: 0.4441363811, blue: 0.5379654765, alpha: 1)
         
         pareLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: UnitsOfSizeForCell.space).isActive = true
         pareLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: UnitsOfSizeForCell.space).isActive = true
