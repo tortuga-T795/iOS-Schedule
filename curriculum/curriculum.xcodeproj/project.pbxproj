@@ -20,11 +20,11 @@
 		45EBD3152349BE0A000B3429 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EBD3142349BE0A000B3429 /* ViewController.swift */; };
 		45EBD31A2349BE0C000B3429 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45EBD3192349BE0C000B3429 /* Assets.xcassets */; };
 		45EBD31D2349BE0C000B3429 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45EBD31B2349BE0C000B3429 /* LaunchScreen.storyboard */; };
-		BE63A263FA15C293FD08C72F /* Pods_curriculum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE98B0789AE95DAD2DF7D15 /* Pods_curriculum.framework */; };
+		93AE8587A59E9CF8181E7C2F /* Pods_curriculum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EB3581CB13A7A9CD946E4A /* Pods_curriculum.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		25E7C2D74513304709F04017 /* Pods-curriculum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-curriculum.release.xcconfig"; path = "Target Support Files/Pods-curriculum/Pods-curriculum.release.xcconfig"; sourceTree = "<group>"; };
+		43FA2CEE8C476A8387171A5E /* Pods-curriculum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-curriculum.debug.xcconfig"; path = "Target Support Files/Pods-curriculum/Pods-curriculum.debug.xcconfig"; sourceTree = "<group>"; };
 		4527DF19234C7872003AAAB1 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		4540C8822372BAAC00242E7F /* jakeTheDog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jakeTheDog.jpg; sourceTree = "<group>"; };
 		454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekCell.swift; sourceTree = "<group>"; };
@@ -40,8 +40,8 @@
 		45EBD3192349BE0C000B3429 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		45EBD31C2349BE0C000B3429 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45EBD31E2349BE0C000B3429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		79C78FE9C951578599D20FBD /* Pods-curriculum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-curriculum.debug.xcconfig"; path = "Target Support Files/Pods-curriculum/Pods-curriculum.debug.xcconfig"; sourceTree = "<group>"; };
-		BEE98B0789AE95DAD2DF7D15 /* Pods_curriculum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_curriculum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6EB3581CB13A7A9CD946E4A /* Pods_curriculum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_curriculum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFF3A0679A82D1A578E6C4F /* Pods-curriculum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-curriculum.release.xcconfig"; path = "Target Support Files/Pods-curriculum/Pods-curriculum.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE63A263FA15C293FD08C72F /* Pods_curriculum.framework in Frameworks */,
+				93AE8587A59E9CF8181E7C2F /* Pods_curriculum.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +101,7 @@
 				45EBD30F2349BE0A000B3429 /* curriculum */,
 				45EBD30E2349BE0A000B3429 /* Products */,
 				86AF4C801196995F9C61A535 /* Pods */,
-				E6C2C95B141C2BCE9950424B /* Frameworks */,
+				EF2378DFC78447973A63B745 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,16 +130,16 @@
 		86AF4C801196995F9C61A535 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				79C78FE9C951578599D20FBD /* Pods-curriculum.debug.xcconfig */,
-				25E7C2D74513304709F04017 /* Pods-curriculum.release.xcconfig */,
+				43FA2CEE8C476A8387171A5E /* Pods-curriculum.debug.xcconfig */,
+				AAFF3A0679A82D1A578E6C4F /* Pods-curriculum.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		E6C2C95B141C2BCE9950424B /* Frameworks */ = {
+		EF2378DFC78447973A63B745 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BEE98B0789AE95DAD2DF7D15 /* Pods_curriculum.framework */,
+				A6EB3581CB13A7A9CD946E4A /* Pods_curriculum.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,11 +151,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 45EBD3212349BE0C000B3429 /* Build configuration list for PBXNativeTarget "curriculum" */;
 			buildPhases = (
-				24DB78A2077BB2DC782DECED /* [CP] Check Pods Manifest.lock */,
+				499F52FFF7FB80E71BAC4AE5 /* [CP] Check Pods Manifest.lock */,
 				45EBD3092349BE0A000B3429 /* Sources */,
 				45EBD30A2349BE0A000B3429 /* Frameworks */,
 				45EBD30B2349BE0A000B3429 /* Resources */,
-				EDB1D4388B4D352AA585D063 /* [CP] Embed Pods Frameworks */,
+				246B793E314BE1DA80899637 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -213,7 +213,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		24DB78A2077BB2DC782DECED /* [CP] Check Pods Manifest.lock */ = {
+		246B793E314BE1DA80899637 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-curriculum/Pods-curriculum-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-curriculum/Pods-curriculum-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-curriculum/Pods-curriculum-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		499F52FFF7FB80E71BAC4AE5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -233,23 +250,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EDB1D4388B4D352AA585D063 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-curriculum/Pods-curriculum-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-curriculum/Pods-curriculum-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-curriculum/Pods-curriculum-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -402,7 +402,7 @@
 		};
 		45EBD3222349BE0C000B3429 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79C78FE9C951578599D20FBD /* Pods-curriculum.debug.xcconfig */;
+			baseConfigurationReference = 43FA2CEE8C476A8387171A5E /* Pods-curriculum.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -422,7 +422,7 @@
 		};
 		45EBD3232349BE0C000B3429 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25E7C2D74513304709F04017 /* Pods-curriculum.release.xcconfig */;
+			baseConfigurationReference = AAFF3A0679A82D1A578E6C4F /* Pods-curriculum.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

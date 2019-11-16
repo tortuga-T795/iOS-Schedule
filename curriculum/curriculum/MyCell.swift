@@ -17,6 +17,9 @@ struct UnitsOfSizeForCell {
 
 class MyCell: UICollectionViewCell {
     
+    deinit {
+        print("cell die")
+    }
     
     var data: CurriculumDay? {
         didSet {
@@ -29,54 +32,54 @@ class MyCell: UICollectionViewCell {
     }
     
     
-    var pareLabel: UILabel = {
+    let pareLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
-        label.textAlignment = .left
-       // label.backgroundColor = .white
-        label.textColor = UnitsOfSizeForCell.textColor
+        label.textAlignment                             = .left
+       // label.backgroundColor                         = .white
+        label.textColor                                 = UnitsOfSizeForCell.textColor
+        label.layer.masksToBounds                       = true
+        label.layer.cornerRadius                        = 10
         
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 10
         label.font = UIFont.boldSystemFont(ofSize: 25 )
         return label
     }()
     
-    var teacherLabel: UILabel = {
+    let teacherLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
+        label.textAlignment                             = .left
+        label.numberOfLines                             = 0
+        label.textColor                                 = UnitsOfSizeForCell.textColor
+        label.layer.masksToBounds                       = true
+        label.layer.cornerRadius                        = 10
         
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        
-        //label.backgroundColor = .white
-        label.textColor = UnitsOfSizeForCell.textColor
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 10
         label.font = UIFont.systemFont(ofSize: 15) //Edit
         return label
     }()
     
-    var groupLabel: UILabel = {
+    let groupLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 10
-        label.backgroundColor = UnitsOfSizeForCell.backgroundGroupColor
+        label.textAlignment                             = .center
+        label.textColor                                 = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        label.layer.masksToBounds                       = true
+        label.layer.cornerRadius                        = 10
+        label.backgroundColor                           = UnitsOfSizeForCell.backgroundGroupColor
+        
         label.font = UIFont.boldSystemFont(ofSize: UnitsOfSizeForCell.fontSize)
         return label
     }()
     
-    var roomLabel: UILabel = {
+    let roomLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
-        label.textAlignment = .center
-        label.backgroundColor = UnitsOfSizeForCell.backgroundGroupColor
-        label.textColor = UnitsOfSizeForCell.textColor
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 10
+        label.textAlignment                             = .center
+        label.backgroundColor                           = UnitsOfSizeForCell.backgroundGroupColor
+        label.textColor                                 = UnitsOfSizeForCell.textColor
+        label.layer.masksToBounds                       = true
+        label.layer.cornerRadius                        = 10
+        
         label.font = UIFont.systemFont(ofSize: UnitsOfSizeForCell.fontSize)
         return label
     }()
@@ -91,6 +94,7 @@ class MyCell: UICollectionViewCell {
         
         contentView.layer.cornerRadius = 10
         contentView.backgroundColor = #colorLiteral(red: 0.3571556211, green: 0.4441363811, blue: 0.5379654765, alpha: 1)
+        
         
         pareLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: UnitsOfSizeForCell.space).isActive = true
         pareLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: UnitsOfSizeForCell.space).isActive = true
