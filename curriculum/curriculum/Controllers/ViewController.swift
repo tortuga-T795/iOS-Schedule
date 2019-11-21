@@ -10,9 +10,12 @@ import UIKit
 import AudioToolbox
 import Kanna
 
-typealias CurriculumDay = (pare: String, teacher: String, room: String, group: String)?
+typealias CurriculumDay = (pare: String, teacher: String, room: String, group: String, numberPare: String)?
 
-let CONSTANT_COEF_SIZE = UIScreen.main.bounds.height/7
+let CONSTANT_WIDTH = UIScreen.main.bounds.width
+let CONSTANT_HEIGHT = UIScreen.main.bounds.height
+
+let CONSTANT_COEF_SIZE = CONSTANT_HEIGHT/5
 
 let arrayOfDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Cуббота"]
 let link = "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89"
@@ -25,6 +28,22 @@ var numOfWeek = 0
 
 
 class ViewController: UIViewController {
+    
+    var lableGroup: UILabel = {
+        let label: UILabel = UILabel()
+        
+        label.frame.size = CGSize(width: CONSTANT_WIDTH/2, height: 50)
+        label.center = CGPoint(x: CONSTANT_WIDTH/2, y: CONSTANT_HEIGHT/15)
+        label.textAlignment = .center
+        label.font = UIFont(name: Fonts.dreamcast, size: 40)
+        label.textColor = #colorLiteral(red: 0.942771256, green: 0.9090159535, blue: 0.8918639421, alpha: 1)
+        let mutStr = NSMutableAttributedString(string: "Т795")
+        mutStr.addAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 0.65, green: 0.98, blue: 0.22, alpha: 1.0)], range: NSRange(location: 0, length: 1))
+        label.attributedText = mutStr
+        return label
+    }()
+    
+    var weekSegment: UISegmentedControl!
     
     let nonePareStr = "Пара снята"
     var segment: UISegmentedControl!
@@ -43,7 +62,6 @@ class ViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(MyCell.self, forCellWithReuseIdentifier: StringIdentifierCell.defCell)
-        cv.register(MyNilCollectionViewCell.self, forCellWithReuseIdentifier: StringIdentifierCell.nilCell)
         cv.register(DayOfWeekCell.self, forCellWithReuseIdentifier: StringIdentifierCell.dayCell)
         return cv
     }()
@@ -63,7 +81,7 @@ class ViewController: UIViewController {
         RequestKBP.dispGroup.notify(queue: .main) {
             print(arr[0])
             numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 1 : 2
-            print(numOfWeek)
+//            print(numOfWeek)
         }
 
        RequestKBP.dispGroup.wait()
@@ -74,9 +92,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         
-        
         self.view.backgroundColor = #colorLiteral(red: 0.0953803435, green: 0.08950889856, blue: 0.1199778244, alpha: 1)
+        
+        view.addSubview(lableGroup)
+        
         setCollectionView() //Collection with constraits and all
+        
+        setWeekSegment()
         
         self.setLoading()
         self.setSegmentControl()
@@ -118,17 +140,38 @@ class ViewController: UIViewController {
                 print("It's end of loading HTML data")
                 self.indicator.stopAnimating()
                 self.collectionView.reloadData()
-                print(self.currentDay)
                 self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: true)
                 
                 
-                print(self.final)
+//                print(self.final)
             }
         }
     }
     
     
     //MARK: - Setting funcs
+    
+    fileprivate func setWeekSegment() {
+        weekSegment = UISegmentedControl(items: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб"])
+        weekSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white,
+                                            NSAttributedString.Key.font : UIFont(name: "Dreamcast", size: 32)],
+                                           for: .normal)
+        
+        weekSegment.backgroundColor = #colorLiteral(red: 0.09532604367, green: 0.0894042179, blue: 0.1199849471, alpha: 1)
+        weekSegment.tintColor = .systemRed
+        if #available(iOS 13.0, *) {
+            weekSegment.selectedSegmentTintColor = .systemRed
+            weekSegment.selectedSegmentIndex = currentDay
+        }
+        
+        weekSegment.frame = CGRect(x: 0, y: view.frame.height-65, width: view.frame.width, height: 65)
+        weekSegment.addTarget(self, action: #selector(weekSegmentChanged), for: .valueChanged)
+        view.addSubview(weekSegment)
+    }
+    
+    @objc func weekSegmentChanged() {
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: weekSegment.selectedSegmentIndex), at: .centeredHorizontally, animated: true)
+    }
     
     
     fileprivate func setCollectionView() {
@@ -165,7 +208,7 @@ class ViewController: UIViewController {
         segment.backgroundColor = #colorLiteral(red: 0.1899176538, green: 0.1831629872, blue: 0.2396201789, alpha: 1)
         segment.tintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         segment.frame.size = CGSize(width: view.frame.width / 1.7, height: view.frame.height/13)
-        segment.center = CGPoint(x: view.frame.midX, y: segment.frame.height * 1.3)
+        segment.center = CGPoint(x: view.frame.midX, y: segment.frame.height * 2)
         segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font : font], for: .normal)
         if #available(iOS 13.0, *) {
             segment.selectedSegmentTintColor = #colorLiteral(red: 0.3566326499, green: 0.4438212514, blue: 0.5379906893, alpha: 1)
@@ -190,14 +233,13 @@ class ViewController: UIViewController {
                            closure: {
 //                            strAll.append($0 as! String)
                             copyFinal.append(curriculumDayFinal($0 as! String))
-                            
-
         })
         
         
         RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
             
             guard let self = self else { return }
+            
             
             self.final = copyFinal
             self.collectionView.reloadData()
@@ -222,12 +264,12 @@ class ViewController: UIViewController {
     
 
     override func viewSafeAreaInsetsDidChange() {
-        print("safe area")
+        
     }
     
     
     override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        print(currentDay)
+        
         AudioServicesPlaySystemSound(1521)
         collectionView.scrollToItem(at: IndexPath(item: 0, section: currentDay), at: .centeredHorizontally, animated: true)
     }

@@ -16,8 +16,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return final[section].count+1
+        return final[section].count
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -30,49 +29,37 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cellNill = collectionView.dequeueReusableCell(withReuseIdentifier: StringIdentifierCell.nilCell, for: indexPath) as! MyNilCollectionViewCell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StringIdentifierCell.defCell, for: indexPath) as! MyCell
-        let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: StringIdentifierCell.dayCell, for: indexPath) as! DayOfWeekCell
         
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StringIdentifierCell.defCell, for: indexPath) as! MyCell
         cell.backgroundColor = .lightGray
         cell.layer.cornerRadius = 10
         
-        if indexPath.row == 0 {
-            dayCell.layer.cornerRadius = 10
-            dayCell.label.text = arrayOfDays[indexPath.section]
-            return dayCell
-        }
         
-        if final[indexPath.section][indexPath.row-1] == nil {
-            return cellNill
-        }
-        cell.data = final[indexPath.section][indexPath.row-1]
+        cell.data = final[indexPath.section][indexPath.row]
         return cell
         
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let cellNilSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/25)
-        let cellSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/6)
-        let cellWeekSize = CGSize(width: collectionView.frame.width-40, height: collectionView.frame.height/10)
+        let cellSize = CGSize(width: collectionView.frame.width-20, height: collectionView.frame.height/6.5)
         
-        if indexPath.row == 0 {
-            return cellWeekSize
-        }
-        
-        if final[indexPath.section][indexPath.row-1] == nil {
-            return cellNilSize
-        }
         return cellSize
         
         
     }
     
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    
     //MARK: - Edge
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
     }
     
     
@@ -84,10 +71,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-//        if indexPath.section == firstWeek.count-1 {
-//            print("index")
-//        }
+        weekSegment.selectedSegmentIndex = indexPath.section
         
     }
 }
