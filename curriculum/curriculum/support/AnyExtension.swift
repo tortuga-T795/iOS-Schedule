@@ -69,11 +69,22 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         weekSegment.selectedSegmentIndex = indexPath.section
+
+        print(collectionView.contentOffset.x)
+        
         
     }
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let pageNumber = scrollView.contentOffset.x / scrollView.frame.width
+//        weekSegment.selectedSegmentIndex = Int(pageNumber)
+//
+//        print(scrollView.contentOffset.x)
+    }
+    
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 func searchByRegularExpresion(regularEx: String, str: String) -> [String] {
     var arr = [String]()
@@ -25,6 +26,7 @@ func searchByRegularExpresion(regularEx: String, str: String) -> [String] {
 }
 
 func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
+    
     
     let newStr = str.replacingOccurrences(of: #"11223344556677"#, with: "", options: .regularExpression)
     
@@ -60,13 +62,22 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     print(arrayOfPareNumbers)
     
     
+    for i in 0..<arrayOfPareNumbers.count {
+        
+        if i == 5 {
+            arrayOfPareNumbers[i].append(" \(timePare[1][(Int(arrayOfPareNumbers[i])!-1)])")
+        }
+        arrayOfPareNumbers[i].append(" \(timePare[0][(Int(arrayOfPareNumbers[i])!-1)])")
+        
+    }
+    
     
     for (index, _) in arrayOfPares.enumerated() {
         arrayOfCurric.append(("\(arrayOfPares[index])",
                             "\(arrayOfTeachers[index])",
                             "\(arrayOfRooms[index])",
                             "\(arrayOfGroups[index])",
-                            "\(arrayOfPareNumbers[index])"))
+            "\(arrayOfPareNumbers[index])"))
     }
     return arrayOfCurric
 }

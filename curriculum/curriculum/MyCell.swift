@@ -11,7 +11,7 @@ import UIKit
 struct UnitsOfSizeForCell {
     struct FontSize {
         static let def: CGFloat = 18
-        static let numOfPare: CGFloat = 40
+        static let numOfPare: CGFloat = 20
         static let teacher: CGFloat = 20
         static let room: CGFloat = 28
         static let pare: CGFloat = 30
@@ -30,7 +30,9 @@ class MyCell: UICollectionViewCell {
     var data: CurriculumDay? {
         didSet {
             guard let good = data else { return }
-            numberPareLabel.text = good?.numberPare
+            let attr = NSMutableAttributedString(string: good?.numberPare ?? "")
+            attr.setAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 1, green: 0.2301670313, blue: 0.1861662865, alpha: 1)], range: NSRange(location: 1, length: (good?.numberPare.count)!-1))
+            numberPareLabel.attributedText = attr
             pareLabel.text = good?.pare
             teacherLabel.text = good?.teacher
             groupLabel.text = good?.group
@@ -99,12 +101,14 @@ class MyCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false ///: "AAAAAAA"
         label.textAlignment                             = .center
+        label.numberOfLines                             = 0
         label.backgroundColor                           = UnitsOfSizeForCell.backgroundGroupColor
         label.textColor                                 = UnitsOfSizeForCell.textColor
         label.layer.masksToBounds                       = true
         label.layer.cornerRadius                        = 10
+//        label.font = UIFont(name: Fonts.dreamcast, size: UnitsOfSizeForCell.FontSize.numOfPare)
         
-        label.font = UIFont(name: Fonts.dreamcast, size: UnitsOfSizeForCell.FontSize.numOfPare)
+        label.font = UIFont.systemFont(ofSize: UnitsOfSizeForCell.FontSize.numOfPare)
         return label
     }()
     

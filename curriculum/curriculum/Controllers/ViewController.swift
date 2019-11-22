@@ -18,6 +18,9 @@ let CONSTANT_HEIGHT = UIScreen.main.bounds.height
 let CONSTANT_COEF_SIZE = CONSTANT_HEIGHT/5
 
 let arrayOfDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Cуббота"]
+let timePare = [["8³⁰-\n10⁰⁰", "10¹⁰-\n11⁴⁰", "12¹⁰-\n13⁴⁰", "14⁰⁰-\n15³⁰", "15⁴⁰-\n17¹⁰", "17²⁰-\n18⁵⁰", "19⁰⁰-\n20³⁰"],
+                ["8³⁰-10⁰⁰", "10¹⁰-11⁴⁰", "11⁵⁰-13²⁰", "13⁴⁰-15¹⁰", "15²⁰-16⁵⁰", "17⁰⁰-18³⁰", "18⁴⁰-20¹⁰"]]
+
 let link = "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89"
 let fontDefault: CGFloat = 17
 let fontDayOfWeek: CGFloat = 50
@@ -38,10 +41,12 @@ class ViewController: UIViewController {
         label.font = UIFont(name: Fonts.dreamcast, size: 40)
         label.textColor = #colorLiteral(red: 0.942771256, green: 0.9090159535, blue: 0.8918639421, alpha: 1)
         let mutStr = NSMutableAttributedString(string: "Т795")
-        mutStr.addAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 0.65, green: 0.98, blue: 0.22, alpha: 1.0)], range: NSRange(location: 0, length: 1))
+        mutStr.addAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 1, green: 0.2301670313, blue: 0.1861662865, alpha: 1)], range: NSRange(location: 0, length: 1))
         label.attributedText = mutStr
         return label
     }()
+    
+    
     
     var weekSegment: UISegmentedControl!
     
