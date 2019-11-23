@@ -11,7 +11,7 @@ import UIKit
 struct UnitsOfSizeForCell {
     struct FontSize {
         static let def: CGFloat = 18
-        static let numOfPare: CGFloat = 20
+        static let numOfPare: CGFloat = (UIScreen.main.bounds.height/UIScreen.main.bounds.width) * 9
         static let teacher: CGFloat = 20
         static let room: CGFloat = 28
         static let pare: CGFloat = 30
