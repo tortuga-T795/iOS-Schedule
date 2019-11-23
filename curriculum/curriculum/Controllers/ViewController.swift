@@ -226,6 +226,7 @@ class ViewController: UIViewController {
         
         switcherWeek = switcherWeek == "rw" ? "lw" : "rw"
         numOfWeek = numOfWeek == 1 ? 2 : 1
+        day = 0
         var copyFinal = [[CurriculumDay]]()
         
         RequestKBP.getData(stringURL: link,
