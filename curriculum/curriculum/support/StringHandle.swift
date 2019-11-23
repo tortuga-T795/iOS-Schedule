@@ -68,7 +68,6 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         
         if day == 5 {
             arrayOfPareNumbers[i].append(" \(timePare[1][(Int(arrayOfPareNumbers[i])!-1)])")
-            break
         }
         else {
         arrayOfPareNumbers[i].append(" \(timePare[0][(Int(arrayOfPareNumbers[i])!-1)])")
