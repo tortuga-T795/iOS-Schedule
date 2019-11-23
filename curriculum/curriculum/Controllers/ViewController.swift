@@ -157,9 +157,10 @@ class ViewController: UIViewController {
     //MARK: - Setting funcs
     
     fileprivate func setWeekSegment() {
+        
         weekSegment = UISegmentedControl(items: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб"])
         weekSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white,
-                                            NSAttributedString.Key.font : UIFont(name: "Dreamcast", size: 32)],
+                                            NSAttributedString.Key.font : UIFont(name: "Dreamcast", size: 32) as Any],
                                            for: .normal)
         
         weekSegment.backgroundColor = #colorLiteral(red: 0.09532604367, green: 0.0894042179, blue: 0.1199849471, alpha: 1)
@@ -225,6 +226,7 @@ class ViewController: UIViewController {
         
         switcherWeek = switcherWeek == "rw" ? "lw" : "rw"
         numOfWeek = numOfWeek == 1 ? 2 : 1
+        day = 0
         var copyFinal = [[CurriculumDay]]()
         
         RequestKBP.getData(stringURL: link,
