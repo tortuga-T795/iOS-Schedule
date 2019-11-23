@@ -47,6 +47,24 @@ class ViewController: UIViewController {
     }()
     
     
+    var searchButton : UIButton = {
+        let button = UIButton()
+        
+        button.frame.size = CGSize(width: CONSTANT_WIDTH/7, height: CONSTANT_WIDTH/7)
+        button.center = CGPoint(x: CONSTANT_WIDTH * 0.9, y: CONSTANT_HEIGHT/15)
+        button.setTitle("🔍", for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont(name: Fonts.dreamcast, size: 40)
+        button.addTarget(self, action: #selector(OpenSearch), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    
+    
+    @objc func OpenSearch() ->() {
+        print("I AM FUCKIG BUTTON")
+    }
     
     var weekSegment: UISegmentedControl!
     
@@ -100,6 +118,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = #colorLiteral(red: 0.0953803435, green: 0.08950889856, blue: 0.1199778244, alpha: 1)
         
         view.addSubview(lableGroup)
+        view.addSubview(searchButton)
         
         setCollectionView() //Collection with constraits and all
         
