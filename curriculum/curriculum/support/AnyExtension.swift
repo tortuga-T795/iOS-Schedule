@@ -85,6 +85,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
 //        print(scrollView.contentOffset.x)
     }
     
+    
 }
 
 
