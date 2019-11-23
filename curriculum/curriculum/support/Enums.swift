@@ -20,6 +20,10 @@ enum Weeks {
     static let secondWeek = "вторая неделя"
 }
 
+struct Fonts {
+    static let dreamcast = "Dreamcast"
+}
+
 enum StringIdentifierCell {
     static let dayCell = "DayCell"
     static let nilCell = "NilCell"

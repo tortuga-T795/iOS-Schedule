@@ -10,8 +10,8 @@
 		4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4527DF19234C7872003AAAB1 /* MyCell.swift */; };
 		4540C8832372BAAC00242E7F /* jakeTheDog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4540C8822372BAAC00242E7F /* jakeTheDog.jpg */; };
 		454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */; };
+		455A881B2385C243005CCD34 /* Dreamcast.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 455A881A2385C243005CCD34 /* Dreamcast.ttf */; };
 		458A62012355198B00A1E58F /* RequestKBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458A62002355198B00A1E58F /* RequestKBP.swift */; };
-		45A4F06E236A157500CC9E5F /* MyNilCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A4F06D236A157500CC9E5F /* MyNilCollectionViewCell.swift */; };
 		45BAEE49236589EA00B2D0BA /* StringHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAEE48236589EA00B2D0BA /* StringHandle.swift */; };
 		45BAEE4B23658C9A00B2D0BA /* AnyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAEE4A23658C9A00B2D0BA /* AnyExtension.swift */; };
 		45C09B3D23579CF500D33CE2 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C09B3C23579CF500D33CE2 /* Enums.swift */; };
@@ -28,8 +28,8 @@
 		4527DF19234C7872003AAAB1 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		4540C8822372BAAC00242E7F /* jakeTheDog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jakeTheDog.jpg; sourceTree = "<group>"; };
 		454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekCell.swift; sourceTree = "<group>"; };
+		455A881A2385C243005CCD34 /* Dreamcast.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dreamcast.ttf; sourceTree = "<group>"; };
 		458A62002355198B00A1E58F /* RequestKBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestKBP.swift; sourceTree = "<group>"; };
-		45A4F06D236A157500CC9E5F /* MyNilCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNilCollectionViewCell.swift; sourceTree = "<group>"; };
 		45BAEE48236589EA00B2D0BA /* StringHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHandle.swift; sourceTree = "<group>"; };
 		45BAEE4A23658C9A00B2D0BA /* AnyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyExtension.swift; sourceTree = "<group>"; };
 		45C09B3C23579CF500D33CE2 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -56,6 +56,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		455A88192385C1FA005CCD34 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				455A881A2385C243005CCD34 /* Dreamcast.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		455DBF3B23636BB400B9A324 /* SettingsProject */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,12 +124,12 @@
 		45EBD30F2349BE0A000B3429 /* curriculum */ = {
 			isa = PBXGroup;
 			children = (
+				455A88192385C1FA005CCD34 /* Fonts */,
 				458A620223551EA500A1E58F /* Delegates */,
 				458A620323551F1700A1E58F /* Controllers */,
 				458A620423561A6500A1E58F /* support */,
 				4527DF19234C7872003AAAB1 /* MyCell.swift */,
 				454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */,
-				45A4F06D236A157500CC9E5F /* MyNilCollectionViewCell.swift */,
 				455DBF3B23636BB400B9A324 /* SettingsProject */,
 			);
 			path = curriculum;
@@ -205,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45EBD31D2349BE0C000B3429 /* LaunchScreen.storyboard in Resources */,
+				455A881B2385C243005CCD34 /* Dreamcast.ttf in Resources */,
 				4540C8832372BAAC00242E7F /* jakeTheDog.jpg in Resources */,
 				45EBD31A2349BE0C000B3429 /* Assets.xcassets in Resources */,
 			);
@@ -267,7 +276,6 @@
 				4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */,
 				45EBD3112349BE0A000B3429 /* AppDelegate.swift in Sources */,
 				45C09B3D23579CF500D33CE2 /* Enums.swift in Sources */,
-				45A4F06E236A157500CC9E5F /* MyNilCollectionViewCell.swift in Sources */,
 				45EBD3132349BE0A000B3429 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
