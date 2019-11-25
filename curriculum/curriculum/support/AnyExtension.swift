@@ -34,7 +34,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         cell.backgroundColor = .lightGray
         cell.layer.cornerRadius = 10
         
-        
         cell.data = final[indexPath.section][indexPath.row]
         return cell
         
@@ -71,8 +70,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         weekSegment.selectedSegmentIndex = indexPath.section
-
-        print(collectionView.contentOffset.x)
         
         
     }
@@ -86,6 +83,82 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     
+}
+
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+//        print(viewConroller)
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            defaults.set(link, forKey: "defLink")
+            defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
+            self.viewController?.final = []
+            day = 0
+            self.viewController?.loadDataForWeek()
+        }
+
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            currentLinks = links
+            tableView.reloadData()
+            return
+        }
+        currentLinks = links.filter({ (one) -> Bool in
+            return one.key.contains(searchText)
+        })
+        tableView.reloadData()
+    }
+    
+}
+
+
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currentLinks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyTableCell", for: indexPath)
+        let array = Array(currentLinks.keys).sorted { (str1, str2) -> Bool in return str1 < str2 }
+        cell.textLabel?.text = Array(array)[indexPath.item]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let text = tableView.cellForRow(at: indexPath)?.textLabel?.text
+        
+        let mutStr = NSMutableAttributedString(string: text ?? "")
+        mutStr.addAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 1, green: 0.2301670313, blue: 0.1861662865, alpha: 1)], range: NSRange(location: 0, length: 1))
+        
+        self.viewController?.lableGroup.attributedText = mutStr
+        searchBar.text = text
+        
+        link = links[text!] ?? ""
+        
+    }
+    
+    
+}
+
+
+extension UIView {
+    
+    func setGradientBackground(colorOne: UIColor, colorTwo: UIColor) {
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: SearchVC.SEARCH_WIDTH, height: SearchVC.SEARCH_HEIGHT)
+        gradientLayer.colors = [colorOne.cgColor, colorTwo.cgColor]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
+        layer.insertSublayer(gradientLayer, at: 0)
+        
+    }
 }
 
 

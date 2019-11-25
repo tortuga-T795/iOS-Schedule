@@ -36,7 +36,7 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     var arrayOfPareNumbers = searchByRegularExpresion(regularEx: #"\d{1,}\s+[А-Я]"#, str: newStr)
     var arrayOfPares = searchByRegularExpresion(regularEx: #"\d{1,}\s+\b[А-Я](\w+)?[А-Я]*([а-я])?(\([А-я]*)?\b"#, str: newStr) //?
     var arrayOfTeachers = searchByRegularExpresion(regularEx:
-        #"(\s+[А-Я][а-я]+\s+)?\b[А-Я][а-я]+\s([А-Я]|[A-Z])(\.)?([А-Я]|[A-Z])(\.)?(\s+[А-Я][а-я]+\s([А-Я]|[A-Z])(\.)?([А-Я]|[A-Z])\.)?"#, str: newStr)
+        #"(\s+[А-Я][а-я]+\s+)?\b[А-Я][а-я]+(\s)?([А-Я]|[A-Z])(\.)?([А-Я]|[A-Z])(\.)?(\s+[А-Я][а-я]+\s([А-Я]|[A-Z])(\.)?([А-Я]|[A-Z])\.)?"#, str: newStr)
     var arrayOfRooms = searchByRegularExpresion(regularEx: #"[А-Я]-\d{3,}\s+\d+"#, str: newStr) //?
     
     arrayOfPares = arrayOfPares.map({ (str) in
@@ -61,12 +61,12 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     let arrayOfGroups = searchByRegularExpresion(regularEx: #"\b[А-Я]-\d{2,3}\b"#, str: newStr)
     
-    print(arrayOfPareNumbers)
+    print(newStr)
     
     
     for i in 0..<arrayOfPareNumbers.count {
         
-        if day % 5 == 0 {
+        if day == 5 {
             arrayOfPareNumbers[i].append(" \(timePare[1][(Int(arrayOfPareNumbers[i])!-1)])")
         }
         else {
@@ -74,8 +74,9 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         }
     }
     
-    print(day)
+//    print(day)
     day += 1
+    
     
     for (index, _) in arrayOfPares.enumerated() {
         arrayOfCurric.append(("\(arrayOfPares[index])",

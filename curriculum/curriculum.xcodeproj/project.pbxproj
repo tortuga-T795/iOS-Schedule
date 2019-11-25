@@ -10,8 +10,10 @@
 		44C5007023895510006FE54F /* LinkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C5006F23895510006FE54F /* LinkData.swift */; };
 		4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4527DF19234C7872003AAAB1 /* MyCell.swift */; };
 		4540C8832372BAAC00242E7F /* jakeTheDog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4540C8822372BAAC00242E7F /* jakeTheDog.jpg */; };
+		45455890238A86B60042B3E0 /* MyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545588F238A86B60042B3E0 /* MyTableCell.swift */; };
 		454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */; };
 		455A881B2385C243005CCD34 /* Dreamcast.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 455A881A2385C243005CCD34 /* Dreamcast.ttf */; };
+		457253002389CBDA00DEF295 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457252FF2389CBDA00DEF295 /* SearchViewController.swift */; };
 		458A62012355198B00A1E58F /* RequestKBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458A62002355198B00A1E58F /* RequestKBP.swift */; };
 		45BAEE49236589EA00B2D0BA /* StringHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAEE48236589EA00B2D0BA /* StringHandle.swift */; };
 		45BAEE4B23658C9A00B2D0BA /* AnyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAEE4A23658C9A00B2D0BA /* AnyExtension.swift */; };
@@ -29,8 +31,10 @@
 		44C5006F23895510006FE54F /* LinkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkData.swift; sourceTree = "<group>"; };
 		4527DF19234C7872003AAAB1 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		4540C8822372BAAC00242E7F /* jakeTheDog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jakeTheDog.jpg; sourceTree = "<group>"; };
+		4545588F238A86B60042B3E0 /* MyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableCell.swift; sourceTree = "<group>"; };
 		454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekCell.swift; sourceTree = "<group>"; };
 		455A881A2385C243005CCD34 /* Dreamcast.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dreamcast.ttf; sourceTree = "<group>"; };
+		457252FF2389CBDA00DEF295 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		458A62002355198B00A1E58F /* RequestKBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestKBP.swift; sourceTree = "<group>"; };
 		45BAEE48236589EA00B2D0BA /* StringHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHandle.swift; sourceTree = "<group>"; };
 		45BAEE4A23658C9A00B2D0BA /* AnyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyExtension.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				45EBD3142349BE0A000B3429 /* ViewController.swift */,
+				457252FF2389CBDA00DEF295 /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -97,8 +102,8 @@
 		458A620423561A6500A1E58F /* support */ = {
 			isa = PBXGroup;
 			children = (
-				45BAEE48236589EA00B2D0BA /* StringHandle.swift */,
 				45BAEE4A23658C9A00B2D0BA /* AnyExtension.swift */,
+				45BAEE48236589EA00B2D0BA /* StringHandle.swift */,
 				458A62002355198B00A1E58F /* RequestKBP.swift */,
 				45C09B3C23579CF500D33CE2 /* Enums.swift */,
 				44C5006F23895510006FE54F /* LinkData.swift */,
@@ -132,6 +137,7 @@
 				458A620323551F1700A1E58F /* Controllers */,
 				458A620423561A6500A1E58F /* support */,
 				4527DF19234C7872003AAAB1 /* MyCell.swift */,
+				4545588F238A86B60042B3E0 /* MyTableCell.swift */,
 				454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */,
 				455DBF3B23636BB400B9A324 /* SettingsProject */,
 			);
@@ -272,10 +278,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				45EBD3152349BE0A000B3429 /* ViewController.swift in Sources */,
+				457253002389CBDA00DEF295 /* SearchViewController.swift in Sources */,
 				44C5007023895510006FE54F /* LinkData.swift in Sources */,
 				454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */,
 				458A62012355198B00A1E58F /* RequestKBP.swift in Sources */,
 				45BAEE4B23658C9A00B2D0BA /* AnyExtension.swift in Sources */,
+				45455890238A86B60042B3E0 /* MyTableCell.swift in Sources */,
 				45BAEE49236589EA00B2D0BA /* StringHandle.swift in Sources */,
 				4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */,
 				45EBD3112349BE0A000B3429 /* AppDelegate.swift in Sources */,
