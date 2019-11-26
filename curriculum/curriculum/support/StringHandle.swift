@@ -36,24 +36,43 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     var arrayOfPareNumbers = searchByRegularExpresion(regularEx: #"\d{1,}\s+[А-Я]"#, str: newStr)
     var arrayOfPares = searchByRegularExpresion(regularEx: #"\d{1,}\s+\b[А-Я](\w+)?[А-Я]*([а-я])?(\([А-я]*)?\b"#, str: newStr) //?
     var arrayOfTeachers = searchByRegularExpresion(regularEx:
-        #"(\s+[А-Я][а-я]+\s+)?\b[А-Я][а-я]+(\s)?([А-Я]|[A-Z])(\.)?([А-Я]|[A-Z])(\.)?(\s+[А-Я][а-я]+\s([А-Я]|[A-Z])(\.)?([А-Я]|[A-Z])\.)?"#, str: newStr)
-    var arrayOfRooms = searchByRegularExpresion(regularEx: #"[А-Я]-\d{3,}\s+\d+"#, str: newStr) //?
+        #"\d+\s+[А-Яа-я]+\s+([A-ZА-Я][a-zа-я]{1,}(\s)?([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?\s+(([A-ZА-Я][a-zа-я]{1,}\s([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?)?"#, str: newStr)
+    var arrayOfRooms = searchByRegularExpresion(regularEx: #"[^\-]\b(\d{3}|\d{2}([а-я])?)\b"#, str: newStr) //?
+    
+    
+    arrayOfPareNumbers = arrayOfPareNumbers.map({ (str) in
+           str.replacingOccurrences(of: #"\s+[А-Я]"#, with: "", options: .regularExpression)
+       })
+    
     
     arrayOfPares = arrayOfPares.map({ (str) in
         str.replacingOccurrences(of: "\t", with: "").replacingOccurrences(of: #"\W+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\d{1,}"#, with: "", options: .regularExpression)
     })
     
-    arrayOfRooms = arrayOfRooms.map { (str) in
-        str.replacingOccurrences(of: "\t", with: "").replacingOccurrences(of: #"[А-Я]-\d{3,}\s+"#, with: "", options: .regularExpression)
+   // print(arrayOfRooms)
+    arrayOfRooms = arrayOfRooms.map( { (str) in
+        str.replacingOccurrences(of: "\t", with: "")
+        })
+    var count = 0
+    var delCount = 0
+    for  _ in arrayOfRooms {
+        if count % 2 == 1
+        {
+            arrayOfRooms.remove(at: count - delCount)
+            delCount += 1
+        }
+        count += 1
     }
     
+    print(arrayOfRooms)
+    
+    
     arrayOfTeachers = arrayOfTeachers.map({ (str) in
-        str.replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+        str.replacingOccurrences(of: #"\d+\s+[А-Яа-я]+\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: "  ", options: .regularExpression)
     })
     
-    arrayOfPareNumbers = arrayOfPareNumbers.map({ (str) in
-        str.replacingOccurrences(of: #"\s+[А-Я]"#, with: "", options: .regularExpression)
-    })
+    print(arrayOfTeachers)
+   
     
     for (index, _) in arrayOfPareNumbers.enumerated() {
         arrayOfPareNumbers[index] = String(arrayOfPareNumbers[index].last!)
@@ -66,6 +85,8 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     for i in 0..<arrayOfPareNumbers.count {
         
+        
+        print( arrayOfPareNumbers[i])
         if day == 5 {
             arrayOfPareNumbers[i].append(" \(timePare[1][(Int(arrayOfPareNumbers[i])!-1)])")
         }
