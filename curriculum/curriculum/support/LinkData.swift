@@ -20,7 +20,7 @@ var links = [
     "Т-794"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=99",
     "Т-795"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89",
 //    "Т-891"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=115",
-    "Т-892"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=120",
+//    "Т-892"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=120",
 //    "Т-893"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=117",
 //    "Т-991"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=75",
 //    "Т-992"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=76",

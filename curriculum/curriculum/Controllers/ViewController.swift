@@ -128,15 +128,16 @@ class ViewController: UIViewController {
     
     //MARK: LoadWeek
     func loadDataForWeek() {
+            self.indicator.startAnimating()
+        
             RequestKBP.dispGroup.wait()
         
             RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
                 
-                UIApplication.shared.beginIgnoringInteractionEvents()
-                
-                print("dispatch")
-//                print(self)
                 guard let self = self else { return }
+                
+                
+                UIApplication.shared.beginIgnoringInteractionEvents()
                 
                 
                 //MARK: - Work with HTML
@@ -170,6 +171,7 @@ class ViewController: UIViewController {
                     self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
                     
                     UIApplication.shared.endIgnoringInteractionEvents()
+                    self.indicator.stopAnimating()
 //                    print(self.final)
                 }
             }
@@ -242,7 +244,7 @@ class ViewController: UIViewController {
     
     fileprivate func setLoading() {
         indicator = UIActivityIndicatorView(frame: CGRect(x: view.frame.midX-10, y: view.frame.midY-10, width: 20, height: 20))
-        indicator.color = .white
+        indicator.color = #colorLiteral(red: 0.7436106205, green: 0.1554034054, blue: 0.07575485855, alpha: 1)
         collectionView.addSubview(indicator)
         indicator.startAnimating()
     }
@@ -273,6 +275,8 @@ class ViewController: UIViewController {
     }
     
     @objc fileprivate func segmentChange() {
+        
+        indicator.startAnimating()
         
         switcherWeek = switcherWeek == "rw" ? "lw" : "rw"
         numOfWeek = numOfWeek == 1 ? 2 : 1
@@ -313,6 +317,8 @@ class ViewController: UIViewController {
                 self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
             }
             UIApplication.shared.endIgnoringInteractionEvents()
+            
+            self.indicator.stopAnimating()
         }
         
         copyFinal = []

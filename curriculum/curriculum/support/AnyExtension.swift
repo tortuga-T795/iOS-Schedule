@@ -91,14 +91,8 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
 //        print(viewConroller)
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            defaults.set(link, forKey: "defLink")
-            defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
-            self.viewController?.final = []
-            day = 0
-            self.viewController?.loadDataForWeek()
-        }
+        
+        dismiss(animated: true)
 
     }
     
@@ -139,6 +133,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         searchBar.text = text
         
         link = links[text!] ?? ""
+        
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            defaults.set(link, forKey: "defLink")
+            defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
+            self.viewController?.final = []
+            day = 0
+            self.viewController?.loadDataForWeek()
+        }
         
     }
     
