@@ -34,7 +34,7 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     var arrayOfCurric = [CurriculumDay]()
     var arrayOfPareNumbers = searchByRegularExpresion(regularEx: #"\d{1,}\s+[А-Я]"#, str: newStr)
-    var arrayOfPares = searchByRegularExpresion(regularEx: #"\d{1,}\s+\b[А-Я](\w+)?[А-Я]*([а-я])?(\([А-я]*)?\b"#, str: newStr) //?
+    var arrayOfPares = searchByRegularExpresion(regularEx: #"\d{1,}\s+\b[А-Я](\w+)?[А-Я]*([а-я])?(\([А-я]*)?\b(\sснята)?"#, str: newStr) //?
     var arrayOfTeachers = searchByRegularExpresion(regularEx:
         #"\d+\s+[А-Яа-я]+\s+([A-ZА-Я][a-zа-я]{1,}(\s)?([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?\s+(([A-ZА-Я][a-zа-я]{1,}\s([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?)?"#, str: newStr)
     var arrayOfRooms = searchByRegularExpresion(regularEx: #"[^\-]\b(\d{3}|\d{2}([а-я])?)\b"#, str: newStr) //?
@@ -49,7 +49,8 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         str.replacingOccurrences(of: "\t", with: "").replacingOccurrences(of: #"\W+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\d{1,}"#, with: "", options: .regularExpression)
     })
     
-   // print(arrayOfRooms)
+    print(arrayOfPares)
+   
     arrayOfRooms = arrayOfRooms.map( { (str) in
         str.replacingOccurrences(of: "\t", with: "")
         })
@@ -71,8 +72,15 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         str.replacingOccurrences(of: #"\d+\s+[А-Яа-я]+\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: "  ", options: .regularExpression)
     })
     
-    print(arrayOfTeachers)
-   
+    for (i, el) in arrayOfPares.enumerated() {
+        if el.contains("Параснята") {
+            arrayOfPares[i] = "Пара снята"
+            arrayOfTeachers.insert("", at: i)
+            arrayOfRooms.insert("🤷‍♂️", at: i)
+        }
+    }
+    
+    
     
     for (index, _) in arrayOfPareNumbers.enumerated() {
         arrayOfPareNumbers[index] = String(arrayOfPareNumbers[index].last!)
