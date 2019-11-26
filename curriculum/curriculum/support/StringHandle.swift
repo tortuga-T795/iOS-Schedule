@@ -73,17 +73,14 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     })
     
     for (i, el) in arrayOfPares.enumerated() {
-        if el.contains("Параснята")
-        {
-            print(">>>>>>>>>>>>>>>>>>>>>>")
+        if el.contains("Параснята") {
             arrayOfPares[i] = "Пара снята"
             arrayOfTeachers.insert("", at: i)
             arrayOfRooms.insert("🤷‍♂️", at: i)
         }
     }
     
-    print(arrayOfTeachers)
-   
+    
     
     for (index, _) in arrayOfPareNumbers.enumerated() {
         arrayOfPareNumbers[index] = String(arrayOfPareNumbers[index].last!)
