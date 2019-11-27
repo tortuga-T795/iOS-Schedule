@@ -70,7 +70,7 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     
     arrayOfTeachers = arrayOfTeachers.map({ (str) in
-        str.replacingOccurrences(of: #"\d+\s+\b[А-ЯAA-Z](\w+)?(\-)?(\w+)\b\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: "  ", options: .regularExpression)
+        str.replacingOccurrences(of: #"\d+\s+\b[А-ЯAA-Z].+\b\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "\n", options: .regularExpression)
     })
     
     for (i, el) in arrayOfPares.enumerated() {
