@@ -34,9 +34,9 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     var arrayOfCurric = [CurriculumDay]()
     var arrayOfPareNumbers = searchByRegularExpresion(regularEx: #"\d{1,}\s+[А-ЯAA-Z]"#, str: newStr)
-    var arrayOfPares = searchByRegularExpresion(regularEx: #"\d+\s+\b[А-ЯA-Z](.+)?\b(\sснята)?"#, str: newStr) //?
+    var arrayOfPares = searchByRegularExpresion(regularEx: #"(\s+)?\d{1,2}\s+\b[А-ЯA-Z](.+)?\b\s+"#, str: newStr) //?
     var arrayOfTeachers = searchByRegularExpresion(regularEx:
-        #"\d+\s+\b[А-ЯAA-Z](\w+)?(\-)?(\w+)\b\s+([A-ZА-Я][a-zа-я]{1,}(\s)?([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?\s+(([A-ZА-Я][a-zа-я]{1,}\s([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?)?"#, str: newStr)
+        #"(\s+)?\d{1,2}\s+\b[А-ЯA-Z](.+)?\b\s+([A-ZА-Я][a-zа-я]{1,}(\s)?([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?\s+(([A-ZА-Я][a-zа-я]{1,}\s([A-ZА-Я])?(\.)?([A-ZА-Я])?)(\.)?)?"#, str: newStr)
     var arrayOfRooms = searchByRegularExpresion(regularEx: #"[^\-]\b(\d{3}|\d{2}([а-я])?)\b"#, str: newStr) //?
     
     
@@ -47,7 +47,7 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     
     arrayOfPares = arrayOfPares.map({ (str) in
-        str.replacingOccurrences(of: "\t", with: "").replacingOccurrences(of: #"\d+\s+"#, with: "", options: .regularExpression)
+        str.replacingOccurrences(of: "\t", with: "").replacingOccurrences(of: #"\d+\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\n(\s+)?"#, with: "", options: .regularExpression).replacingOccurrences(of: #"(\s+)?"#, with: "", options: .regularExpression)
     })
     
     print(arrayOfPares)
@@ -70,11 +70,12 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     
     arrayOfTeachers = arrayOfTeachers.map({ (str) in
-        str.replacingOccurrences(of: #"\d+\s+\b[А-ЯAA-Z].+\b\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "\n", options: .regularExpression)
+        str.replacingOccurrences(of: #"(\s+)?\d{1,2}\s+\b[А-ЯA-Z](.+)?\b\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\t+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "\n", options: .regularExpression)
     })
     
     for (i, el) in arrayOfPares.enumerated() {
-        if el.contains("Пара снята") {
+        if el.contains("Параснята") {
+            arrayOfPares[i] = "Пара снята"
             arrayOfTeachers.insert("", at: i)
             arrayOfRooms.insert("🤷‍♂️", at: i)
         }
