@@ -35,8 +35,8 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     var arrayOfCurric = [CurriculumDay]()
     var arrayOfPareNumbers = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я]"#, str: newStr)
     var arrayOfPares = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?"#, str: newStr)
-    var arrayOfTeachers = searchByRegularExpresion(regularEx:#"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s{1,2})(([A-ZА-Я](\.)?)+)?\s+){1,2}"#, str: newStr)
-    var arrayOfRooms = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s{1,2})(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})(\s+(\d{2,3})([a-zа-я])?)"#, str: newStr) //?
+    var arrayOfTeachers = searchByRegularExpresion(regularEx:#"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}"#, str: newStr)
+    var arrayOfRooms = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})(\s+(\d{2,3})([a-zа-я])?)"#, str: newStr) //?
     
     
     arrayOfPareNumbers = arrayOfPareNumbers.map({ (str) in
@@ -46,13 +46,13 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     
     arrayOfPares = arrayOfPares.map({ (str) in
-        str.replacingOccurrences(of: #"\d{1,}\s{1,42}"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "", options: .regularExpression)
+        str.replacingOccurrences(of: #"\d{1,}\s{1,42}"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
     })
     
     print("PAIRS " , arrayOfPares)
    
     arrayOfRooms = arrayOfRooms.map( { (str) in
-        str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s{1,2})(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})\s+"#, with: "", options: .regularExpression)
+        str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})\s+"#, with: "", options: .regularExpression)
         })
 //    var count = 0
 //    var delCount = 0
@@ -69,7 +69,7 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     
     arrayOfTeachers = arrayOfTeachers.map({ (str) in
-        str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "", options: .regularExpression)
+        str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "\n", options: .regularExpression)
     })
     
     
