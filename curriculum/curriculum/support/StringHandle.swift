@@ -72,12 +72,14 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "\n", options: .regularExpression)
     })
     
-    
+    var arrayOfGroups = searchByRegularExpresion(regularEx: #"\b[А-Я]-\d{2,3}\b"#, str: newStr)
+    print(arrayOfGroups)
     
     for (i, el) in arrayOfPares.enumerated() {
         if el.contains("Пара снята") {
             arrayOfTeachers.insert("", at: i)
             arrayOfRooms.insert("🤷‍♂️", at: i)
+            arrayOfGroups.insert("", at: i)
         }
     }
     
@@ -89,7 +91,6 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     
     print("Pair Numders", arrayOfPareNumbers)
     
-    let arrayOfGroups = searchByRegularExpresion(regularEx: #"\b[А-Я]-\d{2,3}\b"#, str: newStr)
     
     print(newStr)
     
