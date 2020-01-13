@@ -8,6 +8,8 @@
 import Foundation
 
 
+
+
 let linkDispGroup = DispatchGroup()
 
 func dictionaryRequest () -> [String] {
@@ -31,20 +33,23 @@ func dictionaryRequest () -> [String] {
     return arrOfData;
 }
 
-func getLinkDictionary() -> [String : String] {
+
+func getLinkDictionary() -> [String: String] {
  
     let dataArr =  dictionaryRequest()
     
-    var linkDictionary : [String : String] = [:]
-    for el in dataArr
-    {
-        let id = el.replacingOccurrences(of: #"href=\"\?cat=group&amp;id="#, with: "",  options: .regularExpression).replacingOccurrences(of: #"\">.+"#, with: "",  options: .regularExpression)
-        let title = el.replacingOccurrences(of: #"href=\"\?cat=group&amp;id=\d+\">"#, with: "",  options: .regularExpression)
-       
-            linkDictionary[title] = "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=" + id
-            
+    var linkDictionary: [String: String] = [:]
+    for element in dataArr {
+        
+        let id = element
+            .replacingOccurrences(of: #"href=\"\?cat=group&amp;id="#, with: "",  options: .regularExpression)
+            .replacingOccurrences(of: #"\">.+"#, with: "",  options: .regularExpression)
+        
+        let title = element.replacingOccurrences(of: #"href=\"\?cat=group&amp;id=\d+\">"#, with: "",  options: .regularExpression)
+        linkDictionary[title] = "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=" + id
+
     }
-    
+
     print(linkDictionary)
     return linkDictionary
 }
