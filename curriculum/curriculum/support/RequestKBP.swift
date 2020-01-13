@@ -37,7 +37,7 @@ class RequestKBP {
                         
                     }
                     closure(strOneDay)
-                    
+       
                 }
                 dispGroup.leave()
             }

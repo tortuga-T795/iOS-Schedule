@@ -5,38 +5,57 @@
 //  Created by Тимофей Лукашевич on 11/23/19.
 //  Copyright © 2019 IvanLyuhtikov. All rights reserved.
 //
-//import Foundation
+import Foundation
 
 
-var links = [
-    "Т-691"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=90",
-    "Т-692"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=91",
-    "Т-693"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=92",
-    "Т-694"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=93",
-    "Т-791"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=88",
-    "Т-792"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=97",
-    "Т-793"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=98",
-    "Т-794"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=99",
-    "Т-795"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89",
 
-    "Т-891"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=115",
-    "Т-892"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=120",
-    "Т-893"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=117",
-    "Т-991"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=75",
-    "Т-992"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=76",
-    "Т-993"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=77",
-    "Т-994"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=78",
-    "Т-995"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=79",
 
+let linkDispGroup = DispatchGroup()
+
+func dictionaryRequest () -> [String] {
     
-    "П-791"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=50",
-    "П-792"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=41",
-    "П-793"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=42",
+    linkDispGroup.enter()
+    guard let url = URL(string: "https://kbp.by/rasp/timetable/view_beta_kbp/?q=") else { return [""] }
+    var arrOfData: [String] = []
     
-    "Д-791"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=57",
-    "Д-792"  :  "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=58"
+      _ = URLSession.shared.dataTask(with: url) { (data, response, error) in
+          guard let data = data else { return }
+          
+        let htmlContext = String(data: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+        
+         arrOfData = searchByRegularExpresion(regularEx: #"href=\"\?cat=group&amp;id=\d+\">([A-Z,А-Я])?(-)?\d+"#, str: htmlContext ?? "")
+        
+        linkDispGroup.leave()
+      }.resume()
     
+    linkDispGroup.wait()
     
-]
+    return arrOfData;
+}
+
+
+func getLinkDictionary() -> [String: String] {
+ 
+    let dataArr =  dictionaryRequest()
+    
+    var linkDictionary: [String: String] = [:]
+    for element in dataArr {
+        
+        let id = element
+            .replacingOccurrences(of: #"href=\"\?cat=group&amp;id="#, with: "",  options: .regularExpression)
+            .replacingOccurrences(of: #"\">.+"#, with: "",  options: .regularExpression)
+        
+        let title = element.replacingOccurrences(of: #"href=\"\?cat=group&amp;id=\d+\">"#, with: "",  options: .regularExpression)
+        linkDictionary[title] = "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=" + id
+
+    }
+
+    print(linkDictionary)
+    return linkDictionary
+}
+
+
+
+var links = getLinkDictionary()
 
 var currentLinks = [String: String]()

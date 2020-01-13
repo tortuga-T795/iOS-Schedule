@@ -23,7 +23,7 @@ let timePare = [["  8³⁰-\n10⁰⁰", "10¹⁰-\n11⁴⁰", "12¹⁰-\n13⁴�
 
 let defaults = UserDefaults.standard
 
-var link = defaults.string(forKey: "defLink") ?? "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89"
+var link = defaults.string(forKey: "defLink") ?? "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=31"
 let fontDefault: CGFloat = 17
 let fontDayOfWeek: CGFloat = 50
 var switcherWeek = "lw"
@@ -158,7 +158,7 @@ class ViewController: UIViewController {
                                     
                                     strAll.append($0 as! String)
                                     self.final.append(curriculumDayFinal($0 as! String))
-
+      
                 })
 
                 RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
@@ -203,6 +203,19 @@ class ViewController: UIViewController {
 //        self.setIcon()
         
         loadDataForWeek()
+         
+        
+      if !self.final.allSatisfy({$0.isEmpty}) {
+            
+            let l = UILabel(frame: CGRect.init(x: CONSTANT_WIDTH * 0.2, y: CONSTANT_HEIGHT * 0.35 , width: 300, height: 100))
+            print(">>>>>>>its WORK")
+            l.text = "нет подключения к серверу"
+            l.textColor = .black
+
+            self.view.addSubview(l)
+        }
+       
+       
     }
     
     
@@ -289,6 +302,7 @@ class ViewController: UIViewController {
         
         UIApplication.shared.beginIgnoringInteractionEvents()
         
+       
         RequestKBP.getData(stringURL: link,
                            format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
                                     "td[class='number'], div[class='pair \(switcherWeek)_2'] ,div[class='pair \(switcherWeek)_2 added'], div[class='pair \(switcherWeek)_2 week week\(numOfWeek)']",
