@@ -23,7 +23,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
         return final.count
     }
     
@@ -43,7 +42,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let cellSize = CGSize(width: collectionView.frame.width-20, height: collectionView.frame.height/6.5)
+        let cellSize = CGSize(width: collectionView.frame.width-20, height: collectionView.frame.height/8)
         
         return cellSize
         
@@ -68,36 +67,70 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        weekSegment.selectedSegmentIndex = indexPath.section
-        
-        
-    }
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        weekSegment.selectedSegmentIndex = indexPath.section
+//        customWeek.selectedIndex = indexPath.section
+//
+//    }
     
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let pageNumber = scrollView.contentOffset.x / scrollView.frame.width
+        let pageNumber = scrollView.contentOffset.x / scrollView.frame.width
 //        weekSegment.selectedSegmentIndex = Int(pageNumber)
-//
-//        print(scrollView.contentOffset.x)
+        customWeek.selectedIndex = Int(pageNumber)
     }
     
     
 }
 
+//MARK: - SearchBar Extension
 
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
 //        print(viewConroller)
+        let text = searchBar.text ?? ""
+        var mutStr = NSMutableAttributedString(string: text)
+        mutStr.addAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 1, green: 0.2301670313, blue: 0.1861662865, alpha: 1)], range: NSRange(location: 0, length: 1))
         
-        dismiss(animated: true)
+        self.viewController?.lableGroup.attributedText = mutStr
+//        searchBar.text = text
+        
+        link = links[text] ?? ""
+        
+        if link == "" {
+            searchBar.text = "Даун, такой группы нету!"
+            mutStr = NSMutableAttributedString(string: defaults.string(forKey: "defGroup")!)
+            mutStr.addAttributes([NSAttributedString.Key.foregroundColor : UIColor(red: 1, green: 0.2301670313, blue: 0.1861662865, alpha: 1)], range: NSRange(location: 0, length: 1))
+            self.viewController?.lableGroup.attributedText = mutStr
+            return
+        }
+        
+        if #available(iOS 13.0, *) {
+            dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                defaults.set(link, forKey: "defLink")
+                defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
+                self.viewController?.final = []
+                day = 0
+                self.viewController?.loadDataForWeek()
+            }
+        } else {
+            defaults.set(link, forKey: "defLink")
+            defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
+            self.viewController?.final = []
+            day = 0
+            self.viewController?.loadDataForWeek()
+            navigationController?.popViewController(animated: true)
+        }
 
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard !searchText.isEmpty else {
+            //Check Connection
+            
             currentLinks = links
             tableView.reloadData()
             return
@@ -110,6 +143,7 @@ extension SearchViewController: UISearchBarDelegate {
     
 }
 
+//MARK: - SearchViewController Extension
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -134,13 +168,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         link = links[text!] ?? ""
         
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
+        if #available(iOS 13.0, *) {
+            dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                defaults.set(link, forKey: "defLink")
+                defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
+                self.viewController?.final = []
+                
+                day = 0
+                self.viewController?.loadDataForWeek()
+            }
+        } else {
             defaults.set(link, forKey: "defLink")
             defaults.set(self.viewController?.lableGroup.text, forKey: "defGroup")
             self.viewController?.final = []
             day = 0
             self.viewController?.loadDataForWeek()
+            navigationController?.popViewController(animated: true)
         }
         
     }
@@ -175,7 +219,22 @@ extension Calendar {
 }
 
 extension String {
-  subscript (i: Int) -> Character {
-    return self[index(startIndex, offsetBy: i)]
-  }
+    subscript (i: Int) -> Character {
+        return self[index(startIndex, offsetBy: i)]
+    }
+}
+
+
+//MARK: - Custom Extension
+
+extension ViewController: CustomWeekBarDelegate {
+    func countOf() -> Int {
+        return 6
+    }
+    
+    func namesOf() -> [String] {
+        ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
+    }
+    
+    
 }

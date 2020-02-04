@@ -31,7 +31,7 @@ enum StringIdentifierCell {
 }
 
 struct SearchVC {
-    static let SEARCH_HEIGHT: CGFloat = CONSTANT_HEIGHT/2.1
+    static let SEARCH_HEIGHT: CGFloat = CONSTANT_HEIGHT/2
     static let SEARCH_WIDTH: CGFloat = CONSTANT_WIDTH-40
     
     static let FrameY: CGFloat = CONSTANT_HEIGHT/15

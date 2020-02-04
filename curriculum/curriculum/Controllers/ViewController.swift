@@ -9,11 +9,14 @@
 import UIKit
 import AudioToolbox
 import Kanna
+import Reachability
+import RealmSwift
 
 typealias CurriculumDay = (pare: String, teacher: String, room: String, group: String, numberPare: String)?
 
 let CONSTANT_WIDTH = UIScreen.main.bounds.width
 let CONSTANT_HEIGHT = UIScreen.main.bounds.height
+
 
 let CONSTANT_COEF_SIZE = CONSTANT_HEIGHT/5
 
@@ -23,19 +26,25 @@ let timePare = [["  8³⁰-\n10⁰⁰", "10¹⁰-\n11⁴⁰", "12¹⁰-\n13⁴�
 
 let defaults = UserDefaults.standard
 
-var link = defaults.string(forKey: "defLink") ?? "https://kbp.by/rasp/timetable/view_beta_kbp/?cat=group&id=89"
+var link = defaults.string(forKey: "defLink") ?? links["Т-795"] ?? ""
 let fontDefault: CGFloat = 17
 let fontDayOfWeek: CGFloat = 50
 var switcherWeek = "lw"
 var numOfWeek = 0
 var currentGroup = defaults.string(forKey: "defGroup") ?? "Т795"
 
-
-
+//variable for checking connection
+var reachability = Reachability()!
 
 
 
 class ViewController: UIViewController {
+    
+    //offline load
+    var finalElements: Results<Day>!
+//    var finalElements2: Results<Day>!
+    
+    var customWeek: CustomWeekBar!
     
     var lableGroup: UILabel = {
         let label: UILabel = UILabel()
@@ -50,8 +59,6 @@ class ViewController: UIViewController {
         label.attributedText = mutStr
         return label
     }()
-    
-    
     
     
     var searchButton : UIButton = {
@@ -70,18 +77,30 @@ class ViewController: UIViewController {
     
     
     @objc func openSearch() ->() {
+        
+        if reachability.connection == .none {
+            let alert = UIAlertController(title: "Обнаружен Даун", message: "Экономист, wifi вруби", preferredStyle: .alert)
+            let action = UIAlertAction(title: "ок я даун", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
         let searchController = SearchViewController()
         searchController.viewController = self
         
-        present(searchController, animated: true, completion: nil)
-        
-        print("I AM FUCKIG BUTTON")
+        if #available(iOS 13.0, *) {
+            present(searchController, animated: true, completion: nil)
+        } else {
+            navigationController?.pushViewController(searchController, animated: true)
+        }
     }
-    
-    var weekSegment: UISegmentedControl!
     
     let nonePareStr = "Пара снята"
     var segment: UISegmentedControl!
+    //replacement of segment
+    var switcher: WeekSwitcher!
+    
     
     var currentDay: Int = {
         return Calendar.current.dayOfWeek()
@@ -114,75 +133,128 @@ class ViewController: UIViewController {
                    })
 
         RequestKBP.dispGroup.notify(queue: .main) {
-            if self.segment.selectedSegmentIndex == 0 {
+            print("loadView")
+            if self.switcher.active == .first {
+                
                 numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 1 : 2
+                
+            } else {
+                
+                numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 2 : 1
+                switcherWeek = "rw"
             }
-            print(arr[0])
-            print(numOfWeek)
-            print(switcherWeek)
-            print(self.segment.selectedSegmentIndex)
+
+            
+            
         }
 
        RequestKBP.dispGroup.wait()
     }
     
-    //MARK: LoadWeek
+    //MARK: - LoadWeek
     func loadDataForWeek() {
-            self.indicator.startAnimating()
         
-            RequestKBP.dispGroup.wait()
+        let realm = try! Realm()
+        let elements = self.finalElements
         
-            RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
+        try! realm.write {
+            realm.delete(elements!)
+        }
+        
+        self.indicator.startAnimating()
+    
+        RequestKBP.dispGroup.wait()
+    
+        RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
+            
+            guard let self = self else { return }
+            
+            UIApplication.shared.beginIgnoringInteractionEvents()
                 
+                
+            //MARK: - Work with HTML
+            
+            var arrOfDay = [Day]()
+            
+            var strAll = String()
+            RequestKBP.getData(stringURL: link,
+                               format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_2'] ,div[class='pair \(switcherWeek)_2 added'], div[class='pair \(switcherWeek)_2 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_3'] ,div[class='pair \(switcherWeek)_3 added'], div[class='pair \(switcherWeek)_3 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_4'] ,div[class='pair \(switcherWeek)_4 added'], div[class='pair \(switcherWeek)_4 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_5'] ,div[class='pair \(switcherWeek)_5 added'], div[class='pair \(switcherWeek)_5 week week\(numOfWeek)']",
+                                        "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
+                                        ],
+                               closure: { [weak self] in
+                                
+                                guard let self = self else { return }
+                                
+                                strAll.append($0 as! String)
+                                
+                                
+                                let currucDay = curriculumDayFinal($0 as! String)
+                                self.final.append(currucDay)
+                                
+                                let arrOfElements = Day()
+                                
+                                for i in currucDay {
+                                    let one = Element()
+                                    one.teacher = i?.teacher ?? ""
+                                    one.pare = i?.pare ?? ""
+                                    one.group = i?.group ?? ""
+                                    one.room = i?.room ?? ""
+                                    one.numberPare = i?.numberPare ?? ""
+                                    arrOfElements.storage.append(one)
+                                }
+                                arrOfDay.append(arrOfElements)
+            })
+            
+            RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
+                    
                 guard let self = self else { return }
                 
                 
-                UIApplication.shared.beginIgnoringInteractionEvents()
-                
-                
-                //MARK: - Work with HTML
-                
-                var strAll = String()
-            
-                RequestKBP.getData(stringURL: link,
-                                   format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
-                                            "td[class='number'], div[class='pair \(switcherWeek)_2'] ,div[class='pair \(switcherWeek)_2 added'], div[class='pair \(switcherWeek)_2 week week\(numOfWeek)']",
-                                            "td[class='number'], div[class='pair \(switcherWeek)_3'] ,div[class='pair \(switcherWeek)_3 added'], div[class='pair \(switcherWeek)_3 week week\(numOfWeek)']",
-                                            "td[class='number'], div[class='pair \(switcherWeek)_4'] ,div[class='pair \(switcherWeek)_4 added'], div[class='pair \(switcherWeek)_4 week week\(numOfWeek)']",
-                                            "td[class='number'], div[class='pair \(switcherWeek)_5'] ,div[class='pair \(switcherWeek)_5 added'], div[class='pair \(switcherWeek)_5 week week\(numOfWeek)']",
-                                            "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
-                                            ],
-                                   closure: { [weak self] in
-                                    
-                                    guard let self = self else { return }
-                                    
-                                    strAll.append($0 as! String)
-                                    self.final.append(curriculumDayFinal($0 as! String))
+                let realm = try! Realm()
 
-                })
 
-                RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
-                    
-                    guard let self = self else { return }
-                    
-                    print("It's end of loading HTML data")
-                    self.indicator.stopAnimating()
-                    self.collectionView.reloadData()
-                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
-                    
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                    self.indicator.stopAnimating()
-//                    print(self.final)
+                try! realm.write {
+                    realm.add(arrOfDay)
                 }
+                
+                
+                print("It's end of loading HTML data")
+                self.indicator.stopAnimating()
+                self.collectionView.reloadData()
+                //WARNING
+                print(self.currentDay)
+                
+                if self.switcher.active == .first {
+                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
+                    self.customWeek.selectedButton(sender: nil, index: self.currentDay)
+                } else {
+                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
+                    self.customWeek.selectedButton(sender: nil, index: 0)
+                }
+                
+                
+                
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.indicator.stopAnimating()
+//                    print(self.final)
             }
         }
-    
-    override func loadView() {
-        
-        super.loadView()
-        detectNumOfWeek()
     }
     
+    override func loadView() {
+
+        super.loadView()
+
+        if reachability.connection == .none {
+            print("You have not connection to internet!")
+            return
+        }
+        detectNumOfWeek()
+    }
     
     override func viewDidLoad() {
     
@@ -195,46 +267,161 @@ class ViewController: UIViewController {
         
         setCollectionView() //Collection with constraits and all
         
-        setWeekSegment()
+        setSwitcher()
+        
+        setCustomWeek()
         
         self.setLoading()
-        self.setSegmentControl()
         
-//        self.setIcon()
+        discribeConnectionNotification()
+//        checkConnection()
         
-        loadDataForWeek()
+        checkConnectionViewDidLoad()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
     }
     
     
     //MARK: - Setting funcs
     
-    fileprivate func setWeekSegment() {
+    fileprivate func checkConnectionViewDidLoad() {
         
-        weekSegment = UISegmentedControl(items: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб"])
-        weekSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white,
-                                            NSAttributedString.Key.font : UIFont(name: "Dreamcast", size: 32) as Any],
-                                           for: .normal)
         
-        weekSegment.backgroundColor = #colorLiteral(red: 0.09532604367, green: 0.0894042179, blue: 0.1199849471, alpha: 1)
-        weekSegment.tintColor = .systemRed
-        if #available(iOS 13.0, *) {
-            weekSegment.selectedSegmentTintColor = .systemRed
-            weekSegment.selectedSegmentIndex = currentDay
+        let realm = try! Realm()
+        finalElements = realm.objects(Day.self)
+        
+        print("final")
+        
+        for day in finalElements {
+            var arrOfCurricDay = [CurriculumDay]()
+            for pare in day.getMultyArr() {
+                let curricDay = ((pare[0]), (pare[1]), pare[2], pare[3], pare[4])
+                arrOfCurricDay.append(curricDay)
+            }
+            final.append(arrOfCurricDay)
         }
         
-        weekSegment.frame = CGRect(x: 0, y: view.frame.height-65, width: view.frame.width, height: 65)
-        weekSegment.addTarget(self, action: #selector(weekSegmentChanged), for: .valueChanged)
-        view.addSubview(weekSegment)
+        
+        if reachability.connection == .none {
+            if final.isEmpty {
+                let alert = UIAlertController(title: "Внимание", message: "Для первого запуска приложения необходимо наличие интернета!", preferredStyle: .alert)
+                let action = UIAlertAction(title: "ок", style: .default) { _ in
+                    exit(0);
+                }
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+            }
+            
+            let alertInfo = UIAlertController(title: "Помните", message: "В данный момент ваше приложение находится в оффлайн режиме, поэтому текущие данные могут не соответствовать настоящим", preferredStyle: .actionSheet)
+            let action = UIAlertAction(title: "ок", style: .default, handler: nil)
+            alertInfo.addAction(action)
+            present(alertInfo, animated: true, completion: nil)
+            
+            return
+        }
+        final = []
+        loadDataForWeek()
     }
     
-    @objc func weekSegmentChanged() {
-        collectionView.scrollToItem(at: IndexPath(item: 0, section: weekSegment.selectedSegmentIndex), at: .centeredHorizontally, animated: false)
+    
+    fileprivate func checkConnection() {
+        
+        if reachability.connection == .none {
+            print("You have no internet!")
+            DispatchQueue.main.async {
+                self.view.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            }
+        } else {
+            print("You have internet")
+            DispatchQueue.main.async {
+                self.view.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+            }
+        }
+    }
+    
+    fileprivate func discribeConnectionNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(internetChanged(note:)),
+                                               name: Notification.Name.reachabilityChanged,
+                                               object: reachability)
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Could not start notifier")
+        }
+    }
+    
+    @objc func internetChanged(note: Notification) {
+        let reachability = note.object as! Reachability
+        if reachability.connection == .none {
+            DispatchQueue.main.async {
+                self.view.backgroundColor = #colorLiteral(red: 0.2855577221, green: 0.2712289171, blue: 0.3622636918, alpha: 1)
+            }
+        } else {
+            
+            detectNumOfWeek()
+            
+            if reachability.connection == .wifi {
+                DispatchQueue.main.async {
+                    self.view.backgroundColor = #colorLiteral(red: 0.0953803435, green: 0.08950889856, blue: 0.1199778244, alpha: 1)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.view.backgroundColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+                }
+            }
+        }
+    }
+    
+    fileprivate func setSwitcher() {
+        switcher = WeekSwitcher(frame: CGRect(x: CONSTANT_WIDTH/2-(view.frame.width/1.4)/2, y: CONSTANT_HEIGHT/15 + 25, width: view.frame.width / 1.4, height: view.frame.height/12))
+        switcher.backgroundColor = #colorLiteral(red: 0.1383914351, green: 0.1330786645, blue: 0.1663919389, alpha: 1)
+        switcher.active = ActivePosition(rawValue: defaults.integer(forKey: "switcher")) ?? .first
+        for i in switcher.buttons {
+            i.addTarget(self, action: #selector(segmentChange), for: .touchUpInside)
+        }
+        view.addSubview(switcher)
+    }
+    
+    fileprivate func setCustomWeek() {
+        customWeek = CustomWeekBar(frame: CGRect(x: 0, y: CONSTANT_HEIGHT-CONSTANT_HEIGHT/10, width: CONSTANT_WIDTH, height: CONSTANT_HEIGHT/10))
+        customWeek.delegate = self
+        customWeek.VC = self
+        customWeek.subsribeButtons { [weak self] butt in
+            butt.addTarget(self, action: #selector(self?.weekSegmentChanged), for: .touchUpInside)
+        }
+        
+        if reachability.connection == .none {
+            customWeek.selectedIndex = 0
+        }
+        
+        view.addSubview(customWeek)
+    }
+    
+    @objc func weekSegmentChanged(sender: UIButton) {
+        //WARNING
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: sender.tag), at: .centeredHorizontally, animated: false)
+        customWeek.selectedButton(sender: nil, index: sender.tag)
     }
     
     
     fileprivate func setCollectionView() {
         
         self.collectionView.isPagingEnabled = true
+        
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
@@ -247,6 +434,10 @@ class ViewController: UIViewController {
         indicator.color = #colorLiteral(red: 0.7436106205, green: 0.1554034054, blue: 0.07575485855, alpha: 1)
         collectionView.addSubview(indicator)
         indicator.startAnimating()
+        
+        if reachability.connection == .none {
+            indicator.stopAnimating()
+        }
     }
     
     fileprivate func setCollectionViewConstraints() {
@@ -257,37 +448,65 @@ class ViewController: UIViewController {
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
     
-    fileprivate func setSegmentControl() {
-        let font = UIFont.systemFont(ofSize: 16)
+    @objc fileprivate func segmentChange(sender: UIButton) {
         
-        segment = UISegmentedControl(items: ["Сейчас", "Следующая"])
-        segment.addTarget(self, action: #selector(segmentChange), for: .valueChanged)
-        segment.selectedSegmentIndex = 0
-        segment.backgroundColor = #colorLiteral(red: 0.1899176538, green: 0.1831629872, blue: 0.2396201789, alpha: 1)
-        segment.tintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        segment.frame.size = CGSize(width: view.frame.width / 1.7, height: view.frame.height/13)
-        segment.center = CGPoint(x: view.frame.midX, y: segment.frame.height * 2)
-        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font : font], for: .normal)
-        if #available(iOS 13.0, *) {
-            segment.selectedSegmentTintColor = #colorLiteral(red: 0.3566326499, green: 0.4438212514, blue: 0.5379906893, alpha: 1)
+        let tuple: (sender: UIButton, active: ActivePosition, reach: Reachability.Connection) = (sender, switcher.active, reachability.connection)
+        
+        switch tuple {
+        case let (_, _, reach) where reach == .none:
+            let alert = UIAlertController(title: "Обнаружен Даун", message: "Экономист, wifi вруби", preferredStyle: .alert)
+            let action = UIAlertAction(title: "ок я даун", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+            
+            return
+        case let (butt, active, _) where active == .first && butt.tag == 0 || active == .second && butt.tag == 1:
+            return
+        default:
+            break
         }
-        view.addSubview(segment)
-    }
-    
-    @objc fileprivate func segmentChange() {
         
-        indicator.startAnimating()
+//        if reachability.connection == .none && !final.isEmpty {
+//            collectionView.reloadData()
+//            return
+//        }
+        
+        let realm = try! Realm()
+        let elements = self.finalElements
+        
+        try! realm.write {
+            realm.delete(elements!)
+        }
+        
+        print("SEGMENTCHANGE")
+
+        
+        
+        
+        switcher.active = switcher.active == .first ? .second : .first
+        if switcher.active == .first {
+            defaults.set(0, forKey: "switcher")
+        } else {
+            defaults.set(1, forKey: "switcher")
+        }
+        
+        
+        
+        self.indicator.startAnimating()
         
         switcherWeek = switcherWeek == "rw" ? "lw" : "rw"
+        
+        
         numOfWeek = numOfWeek == 1 ? 2 : 1
         day = 0
         print("segmentChanged")
-        print(numOfWeek)
+        print(day)
         print(switcherWeek)
-        print(segment.selectedSegmentIndex)
         var copyFinal = [[CurriculumDay]]()
         
         UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        var arrOfDay = [Day]()
         
         RequestKBP.getData(stringURL: link,
                            format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
@@ -299,23 +518,50 @@ class ViewController: UIViewController {
                                     ],
                            closure: {
 //                            strAll.append($0 as! String)
-                            copyFinal.append(curriculumDayFinal($0 as! String))
+                            
+                            let currDay = curriculumDayFinal($0 as! String)
+                            copyFinal.append(currDay)
+                            
+                            let arrOfElements = Day()
+                            
+                            for i in currDay {
+                                let one = Element()
+                                one.teacher = i?.teacher ?? ""
+                                one.pare = i?.pare ?? ""
+                                one.group = i?.group ?? ""
+                                one.room = i?.room ?? ""
+                                one.numberPare = i?.numberPare ?? ""
+                                arrOfElements.storage.append(one)
+                            }
+                            arrOfDay.append(arrOfElements)
+                            
         })
-        
         
         RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
             
             guard let self = self else { return }
             
+            let realm = try! Realm()
+
+            try! realm.write {
+                realm.add(arrOfDay)
+            }
+            
             
             self.final = copyFinal
             self.collectionView.reloadData()
             
-            if self.segment.selectedSegmentIndex == 1 {
+            if self.switcher.active == .second {
+                //WARNING
                 self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
+                self.customWeek.selectedButton(sender: nil, index: 0)
             } else {
+                //WARNING
                 self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
+                self.customWeek.selectedButton(sender: nil, index: self.currentDay)
             }
+            
+            
             UIApplication.shared.endIgnoringInteractionEvents()
             
             self.indicator.stopAnimating()
@@ -325,17 +571,12 @@ class ViewController: UIViewController {
     }
     
     
-    fileprivate func setIcon() {
-        let imageV = UIImageView(image: #imageLiteral(resourceName: "kbp"))
-        imageV.contentMode = .scaleAspectFit
-        navigationItem.titleView = imageV
-    }
-    
-    
     override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         
         AudioServicesPlaySystemSound(1521)
+        //WARNING
         collectionView.scrollToItem(at: IndexPath(item: 0, section: currentDay), at: .centeredHorizontally, animated: false)
+        self.customWeek.selectedButton(sender: nil, index: self.currentDay)
     }
     
 

@@ -5,5 +5,7 @@ target 'curriculum' do
   use_frameworks!
   
   pod 'Kanna', '~> 5.0.0'
+  pod 'ReachabilitySwift'
+  pod 'RealmSwift'
   
 end

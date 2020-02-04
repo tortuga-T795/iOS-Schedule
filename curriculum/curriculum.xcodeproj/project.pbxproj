@@ -11,7 +11,9 @@
 		4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4527DF19234C7872003AAAB1 /* MyCell.swift */; };
 		4540C8832372BAAC00242E7F /* jakeTheDog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4540C8822372BAAC00242E7F /* jakeTheDog.jpg */; };
 		45455890238A86B60042B3E0 /* MyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545588F238A86B60042B3E0 /* MyTableCell.swift */; };
+		4548CBA623E3416B008B2650 /* WeekSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4548CBA523E3416B008B2650 /* WeekSwitcher.swift */; };
 		454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */; };
+		454DCF1223E4F254000DDED8 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454DCF1123E4F254000DDED8 /* Element.swift */; };
 		455A881B2385C243005CCD34 /* Dreamcast.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 455A881A2385C243005CCD34 /* Dreamcast.ttf */; };
 		457253002389CBDA00DEF295 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457252FF2389CBDA00DEF295 /* SearchViewController.swift */; };
 		458A62012355198B00A1E58F /* RequestKBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458A62002355198B00A1E58F /* RequestKBP.swift */; };
@@ -23,6 +25,7 @@
 		45EBD3152349BE0A000B3429 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EBD3142349BE0A000B3429 /* ViewController.swift */; };
 		45EBD31A2349BE0C000B3429 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45EBD3192349BE0C000B3429 /* Assets.xcassets */; };
 		45EBD31D2349BE0C000B3429 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45EBD31B2349BE0C000B3429 /* LaunchScreen.storyboard */; };
+		45FD0CF523E1EDC700CBDE10 /* CustomWeekBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FD0CF423E1EDC700CBDE10 /* CustomWeekBar.swift */; };
 		93AE8587A59E9CF8181E7C2F /* Pods_curriculum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EB3581CB13A7A9CD946E4A /* Pods_curriculum.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +35,9 @@
 		4527DF19234C7872003AAAB1 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		4540C8822372BAAC00242E7F /* jakeTheDog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jakeTheDog.jpg; sourceTree = "<group>"; };
 		4545588F238A86B60042B3E0 /* MyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableCell.swift; sourceTree = "<group>"; };
+		4548CBA523E3416B008B2650 /* WeekSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSwitcher.swift; sourceTree = "<group>"; };
 		454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekCell.swift; sourceTree = "<group>"; };
+		454DCF1123E4F254000DDED8 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		455A881A2385C243005CCD34 /* Dreamcast.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dreamcast.ttf; sourceTree = "<group>"; };
 		457252FF2389CBDA00DEF295 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		458A62002355198B00A1E58F /* RequestKBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestKBP.swift; sourceTree = "<group>"; };
@@ -46,6 +51,7 @@
 		45EBD3192349BE0C000B3429 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		45EBD31C2349BE0C000B3429 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45EBD31E2349BE0C000B3429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45FD0CF423E1EDC700CBDE10 /* CustomWeekBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWeekBar.swift; sourceTree = "<group>"; };
 		A6EB3581CB13A7A9CD946E4A /* Pods_curriculum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_curriculum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAFF3A0679A82D1A578E6C4F /* Pods-curriculum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-curriculum.release.xcconfig"; path = "Target Support Files/Pods-curriculum/Pods-curriculum.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +113,8 @@
 				458A62002355198B00A1E58F /* RequestKBP.swift */,
 				45C09B3C23579CF500D33CE2 /* Enums.swift */,
 				44C5006F23895510006FE54F /* LinkData.swift */,
+				45FD0CF423E1EDC700CBDE10 /* CustomWeekBar.swift */,
+				4548CBA523E3416B008B2650 /* WeekSwitcher.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -137,6 +145,7 @@
 				458A620323551F1700A1E58F /* Controllers */,
 				458A620423561A6500A1E58F /* support */,
 				4527DF19234C7872003AAAB1 /* MyCell.swift */,
+				454DCF1123E4F254000DDED8 /* Element.swift */,
 				4545588F238A86B60042B3E0 /* MyTableCell.swift */,
 				454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */,
 				455DBF3B23636BB400B9A324 /* SettingsProject */,
@@ -286,8 +295,11 @@
 				45455890238A86B60042B3E0 /* MyTableCell.swift in Sources */,
 				45BAEE49236589EA00B2D0BA /* StringHandle.swift in Sources */,
 				4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */,
+				45FD0CF523E1EDC700CBDE10 /* CustomWeekBar.swift in Sources */,
+				454DCF1223E4F254000DDED8 /* Element.swift in Sources */,
 				45EBD3112349BE0A000B3429 /* AppDelegate.swift in Sources */,
 				45C09B3D23579CF500D33CE2 /* Enums.swift in Sources */,
+				4548CBA623E3416B008B2650 /* WeekSwitcher.swift in Sources */,
 				45EBD3132349BE0A000B3429 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,7 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JSY8H6LPZF;
+				DEVELOPMENT_TEAM = 779L93M27G;
 				INFOPLIST_FILE = curriculum/SettingsProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -446,7 +458,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JSY8H6LPZF;
+				DEVELOPMENT_TEAM = 779L93M27G;
 				INFOPLIST_FILE = curriculum/SettingsProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

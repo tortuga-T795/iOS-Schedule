@@ -36,7 +36,8 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
     var arrayOfPareNumbers = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я]"#, str: newStr)
     var arrayOfPares = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?"#, str: newStr)
     var arrayOfTeachers = searchByRegularExpresion(regularEx:#"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}"#, str: newStr)
-    var arrayOfRooms = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})(\s+(\d{2,3})([a-zа-я])?)"#, str: newStr) //?
+    var arrayOfRooms = searchByRegularExpresion(regularEx: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})(\s{1,30}(\d{2,3})([a-zа-я])?)?"#, str: newStr) //?
+    
     
     
     arrayOfPareNumbers = arrayOfPareNumbers.map({ (str) in
@@ -49,31 +50,18 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         str.replacingOccurrences(of: #"\d{1,}\s{1,42}"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
     })
     
-    print("PAIRS " , arrayOfPares)
-   
+//    print("PAIRS " , arrayOfPares)
+    
     arrayOfRooms = arrayOfRooms.map( { (str) in
-        str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})\s+"#, with: "", options: .regularExpression)
+        str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+(([A-ZА-Я][a-zа-я]+\s*)(([A-ZА-Я](\.)?)+)?\s+){1,2}([A-ZА-Я]\-\d{3})"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
         })
-//    var count = 0
-//    var delCount = 0
-//    for  _ in arrayOfRooms {
-//        if count % 2 == 1
-//        {
-//            arrayOfRooms.remove(at: count - delCount)
-//            delCount += 1
-//        }
-//        count += 1
-//    }
-    
-    print("ROOMS >>>", arrayOfRooms)
-    
     
     arrayOfTeachers = arrayOfTeachers.map({ (str) in
         str.replacingOccurrences(of: #"\d{1,}\s{1,42}[^(неделя)][А-ЯAA-Za-zа-я](.+)?\s+"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression).replacingOccurrences(of: #"\s{2,}"#, with: "\n", options: .regularExpression)
     })
     
     var arrayOfGroups = searchByRegularExpresion(regularEx: #"\b[А-Я]-\d{2,3}\b"#, str: newStr)
-    print(arrayOfGroups)
+//    print(arrayOfGroups)
     
     for (i, el) in arrayOfPares.enumerated() {
         if el.contains("Пара снята") {
@@ -83,27 +71,26 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
         }
     }
     
-    print("Teachers" ,arrayOfTeachers)
+//    print("Teachers" ,arrayOfTeachers)
     
     for (index, _) in arrayOfPareNumbers.enumerated() {
         arrayOfPareNumbers[index] = String(arrayOfPareNumbers[index].last!)
     }
     
-    print("Pair Numders", arrayOfPareNumbers)
+//    print("Pair Numders", arrayOfPareNumbers)
     
     
     print(newStr)
     
     
+    
     for i in 0..<arrayOfPareNumbers.count {
         
-        
-        print( arrayOfPareNumbers[i])
+        print("\(day)     sdjflasjflkdsfjsdafsdljfsdlafjaklsdjflasjfdsfj")
         if day == 5 {
             arrayOfPareNumbers[i].append(" \(timePare[1][(Int(arrayOfPareNumbers[i])!-1)])")
-        }
-        else {
-        arrayOfPareNumbers[i].append(" \(timePare[0][(Int(arrayOfPareNumbers[i])!-1)])")
+        } else {
+            arrayOfPareNumbers[i].append(" \(timePare[0][(Int(arrayOfPareNumbers[i])!-1)])")
         }
     }
     
@@ -118,5 +105,11 @@ func curriculumDayFinal(_ str: String) -> [CurriculumDay] {
                             "\(arrayOfGroups[index])",
             "\(arrayOfPareNumbers[index])"))
     }
+    
+//    print(arrayOfCurric)
+    if arrayOfCurric.isEmpty {
+        return [(pare: "Пары отсуствуют", teacher: "😎", room: "🤤", group: "🤤", numberPare: "🤩")]
+    }
+    
     return arrayOfCurric
 }
