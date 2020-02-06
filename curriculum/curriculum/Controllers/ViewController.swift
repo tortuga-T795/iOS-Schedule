@@ -31,6 +31,10 @@ let fontDefault: CGFloat = 17
 let fontDayOfWeek: CGFloat = 50
 var switcherWeek = "lw"
 var numOfWeek = 0
+
+var switcherWeek2 = "rw"
+var numOfWeek2 = 0
+
 var currentGroup = defaults.string(forKey: "defGroup") ?? "Т795"
 
 //variable for checking connection
@@ -45,6 +49,9 @@ class ViewController: UIViewController {
 //    var finalElements2: Results<Day>!
     
     var customWeek: CustomWeekBar!
+    
+    var final = [[CurriculumDay]]()
+    var betaFinal: [[[CurriculumDay]]] = [[],[]]
     
     var lableGroup: UILabel = {
         let label: UILabel = UILabel()
@@ -76,13 +83,14 @@ class ViewController: UIViewController {
     
     
     
-    @objc func openSearch() ->() {
+    @objc func openSearch() -> () {
         
         if reachability.connection == .none {
             let alert = UIAlertController(title: "Обнаружен Даун", message: "Экономист, wifi вруби", preferredStyle: .alert)
             let action = UIAlertAction(title: "ок я даун", style: .default, handler: nil)
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
+            AudioServicesPlaySystemSound(1519)
             return
         }
         
@@ -120,7 +128,6 @@ class ViewController: UIViewController {
         return cv
     }()
     
-    var final = [[CurriculumDay]]()
     
     //MARK: DetectNumOfWeek
     func detectNumOfWeek() {
@@ -134,17 +141,8 @@ class ViewController: UIViewController {
 
         RequestKBP.dispGroup.notify(queue: .main) {
             print("loadView")
-            if self.switcher.active == .first {
-                
-                numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 1 : 2
-                
-            } else {
-                
-                numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 2 : 1
-                switcherWeek = "rw"
-            }
-
             
+            numOfWeek = arr[0].contains("первая неделяОзнакомление") ? 1 : 2
             
         }
 
@@ -161,6 +159,8 @@ class ViewController: UIViewController {
             realm.delete(elements!)
         }
         
+        print("loadDataForWeek")
+        
         self.indicator.startAnimating()
     
         RequestKBP.dispGroup.wait()
@@ -176,6 +176,12 @@ class ViewController: UIViewController {
             
             var arrOfDay = [Day]()
             
+            numOfWeek2 = numOfWeek == 1 ? 2 : 1
+            
+            
+            var counter = 0
+            self.betaFinal = [[],[]]
+            
             var strAll = String()
             RequestKBP.getData(stringURL: link,
                                format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
@@ -183,7 +189,13 @@ class ViewController: UIViewController {
                                         "td[class='number'], div[class='pair \(switcherWeek)_3'] ,div[class='pair \(switcherWeek)_3 added'], div[class='pair \(switcherWeek)_3 week week\(numOfWeek)']",
                                         "td[class='number'], div[class='pair \(switcherWeek)_4'] ,div[class='pair \(switcherWeek)_4 added'], div[class='pair \(switcherWeek)_4 week week\(numOfWeek)']",
                                         "td[class='number'], div[class='pair \(switcherWeek)_5'] ,div[class='pair \(switcherWeek)_5 added'], div[class='pair \(switcherWeek)_5 week week\(numOfWeek)']",
-                                        "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
+                                        "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']",
+                                "td[class='number'], div[class='pair \(switcherWeek2)_1'] ,div[class='pair \(switcherWeek2)_1 added'], div[class='pair \(switcherWeek2)_1 week week\(numOfWeek2)']",
+                                "td[class='number'], div[class='pair \(switcherWeek2)_2'] ,div[class='pair \(switcherWeek2)_2 added'], div[class='pair \(switcherWeek2)_2 week week\(numOfWeek2)']",
+                                "td[class='number'], div[class='pair \(switcherWeek2)_3'] ,div[class='pair \(switcherWeek2)_3 added'], div[class='pair \(switcherWeek2)_3 week week\(numOfWeek2)']",
+                                "td[class='number'], div[class='pair \(switcherWeek2)_4'] ,div[class='pair \(switcherWeek2)_4 added'], div[class='pair \(switcherWeek2)_4 week week\(numOfWeek2)']",
+                                "td[class='number'], div[class='pair \(switcherWeek2)_5'] ,div[class='pair \(switcherWeek2)_5 added'], div[class='pair \(switcherWeek2)_5 week week\(numOfWeek2)']",
+                                "td[class='number'], div[class='pair \(switcherWeek2)_6'] ,div[class='pair \(switcherWeek2)_6 added'], div[class='pair \(switcherWeek2)_6 week week\(numOfWeek2)']"
                                         ],
                                closure: { [weak self] in
                                 
@@ -193,7 +205,12 @@ class ViewController: UIViewController {
                                 
                                 
                                 let currucDay = curriculumDayFinal($0 as! String)
-                                self.final.append(currucDay)
+                                
+                                if counter <= 5 {
+                                    self.betaFinal[0].append(currucDay)
+                                } else {
+                                    self.betaFinal[1].append(currucDay)
+                                }
                                 
                                 let arrOfElements = Day()
                                 
@@ -207,6 +224,7 @@ class ViewController: UIViewController {
                                     arrOfElements.storage.append(one)
                                 }
                                 arrOfDay.append(arrOfElements)
+                                counter += 1
             })
             
             RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
@@ -223,6 +241,14 @@ class ViewController: UIViewController {
                 
                 
                 print("It's end of loading HTML data")
+                
+                
+                if self.switcher.active == .first {
+                    self.final = self.betaFinal[0]
+                } else {
+                    self.final = self.betaFinal[1]
+                }
+                
                 self.indicator.stopAnimating()
                 self.collectionView.reloadData()
                 //WARNING
@@ -299,30 +325,37 @@ class ViewController: UIViewController {
     
     fileprivate func checkConnectionViewDidLoad() {
         
-        
         let realm = try! Realm()
         finalElements = realm.objects(Day.self)
         
         print("final")
         
-        for day in finalElements {
+        for (index, day) in finalElements.enumerated() {
+            let i = index > 5 ? 1 : 0
             var arrOfCurricDay = [CurriculumDay]()
             for pare in day.getMultyArr() {
-                let curricDay = ((pare[0]), (pare[1]), pare[2], pare[3], pare[4])
+                let curricDay = (pare[0], pare[1], pare[2], pare[3], pare[4])
                 arrOfCurricDay.append(curricDay)
             }
-            final.append(arrOfCurricDay)
+            betaFinal[i].append(arrOfCurricDay)
         }
         
+        if switcher.active == .first {
+            final = betaFinal[0]
+        } else {
+            final = betaFinal[1]
+        }
         
         if reachability.connection == .none {
-            if final.isEmpty {
+            print(betaFinal[0])
+            if betaFinal[0].isEmpty {
                 let alert = UIAlertController(title: "Внимание", message: "Для первого запуска приложения необходимо наличие интернета!", preferredStyle: .alert)
                 let action = UIAlertAction(title: "ок", style: .default) { _ in
                     exit(0);
                 }
                 alert.addAction(action)
                 present(alert, animated: true, completion: nil)
+                AudioServicesPlaySystemSound(1519)
             }
             
             let alertInfo = UIAlertController(title: "Помните", message: "В данный момент ваше приложение находится в оффлайн режиме, поэтому текущие данные могут не соответствовать настоящим", preferredStyle: .actionSheet)
@@ -333,7 +366,6 @@ class ViewController: UIViewController {
             return
         }
         final = []
-        loadDataForWeek()
     }
     
     
@@ -373,6 +405,7 @@ class ViewController: UIViewController {
         } else {
             
             detectNumOfWeek()
+            loadDataForWeek()
             
             if reachability.connection == .wifi {
                 DispatchQueue.main.async {
@@ -453,121 +486,38 @@ class ViewController: UIViewController {
         let tuple: (sender: UIButton, active: ActivePosition, reach: Reachability.Connection) = (sender, switcher.active, reachability.connection)
         
         switch tuple {
-        case let (_, _, reach) where reach == .none:
-            let alert = UIAlertController(title: "Обнаружен Даун", message: "Экономист, wifi вруби", preferredStyle: .alert)
-            let action = UIAlertAction(title: "ок я даун", style: .default, handler: nil)
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
-            
-            return
+//        case let (_, _, reach) where reach == .none && betaFinal[0].isEmpty:
+//            let alert = UIAlertController(title: "Обнаружен Даун", message: "Экономист, wifi вруби", preferredStyle: .alert)
+//            let action = UIAlertAction(title: "ок я даун", style: .default, handler: nil)
+//            alert.addAction(action)
+//            present(alert, animated: true, completion: nil)
+//            AudioServicesPlaySystemSound(1519)
+//
+//            return
         case let (butt, active, _) where active == .first && butt.tag == 0 || active == .second && butt.tag == 1:
             return
         default:
             break
         }
         
-//        if reachability.connection == .none && !final.isEmpty {
-//            collectionView.reloadData()
-//            return
-//        }
-        
-        let realm = try! Realm()
-        let elements = self.finalElements
-        
-        try! realm.write {
-            realm.delete(elements!)
-        }
-        
-        print("SEGMENTCHANGE")
-
-        
-        
-        
         switcher.active = switcher.active == .first ? .second : .first
+        
         if switcher.active == .first {
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
+            self.customWeek.selectedButton(sender: nil, index: self.currentDay)
+            final = betaFinal[0]
             defaults.set(0, forKey: "switcher")
         } else {
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
+            self.customWeek.selectedButton(sender: nil, index: 0)
+            final = betaFinal[1]
             defaults.set(1, forKey: "switcher")
         }
         
         
-        
-        self.indicator.startAnimating()
-        
-        switcherWeek = switcherWeek == "rw" ? "lw" : "rw"
+        collectionView.reloadData()
         
         
-        numOfWeek = numOfWeek == 1 ? 2 : 1
-        day = 0
-        print("segmentChanged")
-        print(day)
-        print(switcherWeek)
-        var copyFinal = [[CurriculumDay]]()
-        
-        UIApplication.shared.beginIgnoringInteractionEvents()
-        
-        var arrOfDay = [Day]()
-        
-        RequestKBP.getData(stringURL: link,
-                           format: ["td[class='number'], div[class='pair \(switcherWeek)_1'] ,div[class='pair \(switcherWeek)_1 added'], div[class='pair \(switcherWeek)_1 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_2'] ,div[class='pair \(switcherWeek)_2 added'], div[class='pair \(switcherWeek)_2 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_3'] ,div[class='pair \(switcherWeek)_3 added'], div[class='pair \(switcherWeek)_3 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_4'] ,div[class='pair \(switcherWeek)_4 added'], div[class='pair \(switcherWeek)_4 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_5'] ,div[class='pair \(switcherWeek)_5 added'], div[class='pair \(switcherWeek)_5 week week\(numOfWeek)']",
-                                    "td[class='number'], div[class='pair \(switcherWeek)_6'] ,div[class='pair \(switcherWeek)_6 added'], div[class='pair \(switcherWeek)_6 week week\(numOfWeek)']"
-                                    ],
-                           closure: {
-//                            strAll.append($0 as! String)
-                            
-                            let currDay = curriculumDayFinal($0 as! String)
-                            copyFinal.append(currDay)
-                            
-                            let arrOfElements = Day()
-                            
-                            for i in currDay {
-                                let one = Element()
-                                one.teacher = i?.teacher ?? ""
-                                one.pare = i?.pare ?? ""
-                                one.group = i?.group ?? ""
-                                one.room = i?.room ?? ""
-                                one.numberPare = i?.numberPare ?? ""
-                                arrOfElements.storage.append(one)
-                            }
-                            arrOfDay.append(arrOfElements)
-                            
-        })
-        
-        RequestKBP.dispGroup.notify(queue: .main) { [weak self] in
-            
-            guard let self = self else { return }
-            
-            let realm = try! Realm()
-
-            try! realm.write {
-                realm.add(arrOfDay)
-            }
-            
-            
-            self.final = copyFinal
-            self.collectionView.reloadData()
-            
-            if self.switcher.active == .second {
-                //WARNING
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
-                self.customWeek.selectedButton(sender: nil, index: 0)
-            } else {
-                //WARNING
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: self.currentDay), at: .centeredHorizontally, animated: false)
-                self.customWeek.selectedButton(sender: nil, index: self.currentDay)
-            }
-            
-            
-            UIApplication.shared.endIgnoringInteractionEvents()
-            
-            self.indicator.stopAnimating()
-        }
-        
-        copyFinal = []
     }
     
     

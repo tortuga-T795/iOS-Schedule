@@ -15,14 +15,14 @@
 		454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454CBCE6236ECD130086CD91 /* DayOfWeekCell.swift */; };
 		454DCF1223E4F254000DDED8 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454DCF1123E4F254000DDED8 /* Element.swift */; };
 		455A881B2385C243005CCD34 /* Dreamcast.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 455A881A2385C243005CCD34 /* Dreamcast.ttf */; };
-		457253002389CBDA00DEF295 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457252FF2389CBDA00DEF295 /* SearchViewController.swift */; };
 		458A62012355198B00A1E58F /* RequestKBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458A62002355198B00A1E58F /* RequestKBP.swift */; };
+		45939FDB23EB762B00B1B87F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457252FF2389CBDA00DEF295 /* SearchViewController.swift */; };
+		45939FDC23EB7A6F00B1B87F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EBD3142349BE0A000B3429 /* ViewController.swift */; };
 		45BAEE49236589EA00B2D0BA /* StringHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAEE48236589EA00B2D0BA /* StringHandle.swift */; };
 		45BAEE4B23658C9A00B2D0BA /* AnyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAEE4A23658C9A00B2D0BA /* AnyExtension.swift */; };
 		45C09B3D23579CF500D33CE2 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C09B3C23579CF500D33CE2 /* Enums.swift */; };
 		45EBD3112349BE0A000B3429 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EBD3102349BE0A000B3429 /* AppDelegate.swift */; };
 		45EBD3132349BE0A000B3429 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EBD3122349BE0A000B3429 /* SceneDelegate.swift */; };
-		45EBD3152349BE0A000B3429 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EBD3142349BE0A000B3429 /* ViewController.swift */; };
 		45EBD31A2349BE0C000B3429 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45EBD3192349BE0C000B3429 /* Assets.xcassets */; };
 		45EBD31D2349BE0C000B3429 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45EBD31B2349BE0C000B3429 /* LaunchScreen.storyboard */; };
 		45FD0CF523E1EDC700CBDE10 /* CustomWeekBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FD0CF423E1EDC700CBDE10 /* CustomWeekBar.swift */; };
@@ -99,8 +99,8 @@
 		458A620323551F1700A1E58F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				457252FF2389CBDA00DEF295 /* SearchViewController.swift */,
 				45EBD3142349BE0A000B3429 /* ViewController.swift */,
+				457252FF2389CBDA00DEF295 /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -286,8 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45EBD3152349BE0A000B3429 /* ViewController.swift in Sources */,
-				457253002389CBDA00DEF295 /* SearchViewController.swift in Sources */,
+				45939FDC23EB7A6F00B1B87F /* ViewController.swift in Sources */,
 				44C5007023895510006FE54F /* LinkData.swift in Sources */,
 				454CBCE7236ECD130086CD91 /* DayOfWeekCell.swift in Sources */,
 				458A62012355198B00A1E58F /* RequestKBP.swift in Sources */,
@@ -296,6 +295,7 @@
 				45BAEE49236589EA00B2D0BA /* StringHandle.swift in Sources */,
 				4527DF1A234C7872003AAAB1 /* MyCell.swift in Sources */,
 				45FD0CF523E1EDC700CBDE10 /* CustomWeekBar.swift in Sources */,
+				45939FDB23EB762B00B1B87F /* SearchViewController.swift in Sources */,
 				454DCF1223E4F254000DDED8 /* Element.swift in Sources */,
 				45EBD3112349BE0A000B3429 /* AppDelegate.swift in Sources */,
 				45C09B3D23579CF500D33CE2 /* Enums.swift in Sources */,

@@ -89,6 +89,10 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        if reachability.connection == .none {
+            return
+        }
+        
 //        print(viewConroller)
         let text = searchBar.text ?? ""
         var mutStr = NSMutableAttributedString(string: text)
@@ -158,6 +162,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if reachability.connection == .none {
+            return
+        }
+        
         let text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         
         let mutStr = NSMutableAttributedString(string: text ?? "")
